@@ -1,0 +1,13 @@
+Enigma2 / Dreambox API Client for sharemybox.net
+
+Needed:
+ - Python Version 2.x
+ - simplejson only for Python < 2.6 (http://pypi.python.org/pypi/simplejson/) 
+ - poster (http://pypi.python.org/pypi/poster/0.4)
+
+Currently implemented api calls:
+ - Channellists: upload, download, edit
+ - Files: upload, download
+ - Register- and BoxLogin
+ 
+
