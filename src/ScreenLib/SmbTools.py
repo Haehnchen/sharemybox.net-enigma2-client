@@ -13,8 +13,13 @@ from Components.MenuList import MenuList
 from enigma import eConsoleAppContainer
 from Tools.LoadPixmap import LoadPixmap
 from Plugins.Extensions.ShareMyBox.ShareMyBoxRequets import ShareMyBoxApi as Request 
+from Plugins.Extensions.ShareMyBox.ShareMyBoxTimer import worker as epg_update
+from Tools.Notifications import AddPopup
+
+from RecordTimer import RecordTimerEntry, RecordTimer, AFTEREVENT, parseEvent
 
 #from AutoTimerConfiguration import parseConfig, buildConfig
+NOTIFICATIONID = 'Test'
 
 import Screens.Ipkg 
 
@@ -62,20 +67,17 @@ class Smb_Tools_MainMenu(Smb_BaseScreen):
     
   def ok(self):
     
-    try:
-      returnItems = self["myMenu"].l.getCurrentSelection()[0]
-      returnValue = returnItems['func']
+    returnItems = self["myMenu"].l.getCurrentSelection()[0]
+    returnValue = returnItems['func']
       
-      if returnItems.has_key('needaccess') and self.itemaccess(returnItems['needaccess']) is False:
-        self.SetMessage('no access')
-        return    
+    if returnItems.has_key('needaccess') and self.itemaccess(returnItems['needaccess']) is False:
+      self.SetMessage('no access')
+      return    
       
-      returnValue(returnItems)
-      return
+    returnValue(returnItems)
+    return
           
-    except Exception, e:
-      print 'Error:', e      
-    
+   
   def msgUpdate(self, item = None):
     self.session.openWithCallback(self.EventStartUpdate,MessageBox,_("Update Client now:\nDo you want to download and install now?"), MessageBox.TYPE_YESNO)
       
@@ -84,23 +86,13 @@ class Smb_Tools_MainMenu(Smb_BaseScreen):
     
   def records(self, item = None):
     records = Request().RecordGet().GetList()
-    # Parse Config
-    configuration = cet_parse(XML_CONFIG).getroot()
-
-    # Empty out timers and reset Ids
-    del self.timers[:]
-    self.defaultTimer.clear(-1, True)
-
-    parseConfig(
-      configuration,
-      self.timers,
-      configuration.get("version"),
-      0,
-      self.defaultTimer
-    )
-        
-    #import pprint
-    #pprint.pprint(records)
+    timers_file = boxwrapper.GetConfigDir() + '/timers.xml'
+    epg_update(timers_file, records)
+    test = RecordTimer()
+    test.saveTimer()
+    test.shutdown()
+    
+    #AddPopup('test', MessageBox.TYPE_INFO,5, NOTIFICATIONID)    
     
       
   def EventStartUpdate(self, result = False):
