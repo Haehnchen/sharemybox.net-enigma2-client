@@ -13,7 +13,7 @@ from Components.MenuList import MenuList
 from enigma import eConsoleAppContainer
 from Tools.LoadPixmap import LoadPixmap
 from Plugins.Extensions.ShareMyBox.ShareMyBoxRequets import ShareMyBoxApi as Request 
-from Plugins.Extensions.ShareMyBox.ShareMyBoxTimer import worker as epg_update
+from Plugins.Extensions.ShareMyBox.ShareMyBoxTimer import ShareMyBoxTimer
 from Tools.Notifications import AddPopup
 
 from RecordTimer import RecordTimerEntry, RecordTimer, AFTEREVENT, parseEvent
@@ -67,16 +67,19 @@ class Smb_Tools_MainMenu(Smb_BaseScreen):
     
   def ok(self):
     
-    returnItems = self["myMenu"].l.getCurrentSelection()[0]
-    returnValue = returnItems['func']
-      
-    if returnItems.has_key('needaccess') and self.itemaccess(returnItems['needaccess']) is False:
-      self.SetMessage('no access')
-      return    
-      
-    returnValue(returnItems)
-    return
-          
+    try:
+    
+      returnItems = self["myMenu"].l.getCurrentSelection()[0]
+      returnValue = returnItems['func']
+        
+      if returnItems.has_key('needaccess') and self.itemaccess(returnItems['needaccess']) is False:
+        self.SetMessage('no access')
+        return    
+        
+      returnValue(returnItems)
+  
+    except Exception as e:
+      self.SetMessage(str(e))
    
   def msgUpdate(self, item = None):
     self.session.openWithCallback(self.EventStartUpdate,MessageBox,_("Update Client now:\nDo you want to download and install now?"), MessageBox.TYPE_YESNO)
@@ -85,13 +88,18 @@ class Smb_Tools_MainMenu(Smb_BaseScreen):
     return dreamclass.GetAccess(item) == True      
     
   def records(self, item = None):
+
     records = Request().RecordGet().GetList()
     timers_file = boxwrapper.GetConfigDir() + '/timers.xml'
-    epg_update(timers_file, records)
-    test = RecordTimer()
-    test.saveTimer()
-    test.shutdown()
-    
+
+    worker = ShareMyBoxTimer(timers_file, records)
+    if worker.worker() == True:
+      test = RecordTimer()
+      test.saveTimer()
+      test.shutdown()
+      self.SetMessage('Records synced')
+    else:
+      self.SetMessage('Already up to date')
     #AddPopup('test', MessageBox.TYPE_INFO,5, NOTIFICATIONID)    
     
       

@@ -14,7 +14,9 @@ from poster.streaminghttp import register_openers
 from boxwrapper import get_mac
 from dreamclass import UserInfo
 
-API_PATH = 'http://api.sharemybox.net/'
+API_PATH = 'http://ch.espend.de/'
+DEBUG_PATH = 'http://ch.espend.de/front/debug'
+
 VERSION = "1.0"
 
 class ShareMyBoxApi(object):
@@ -267,6 +269,8 @@ class ShareMyBoxApiRequest(object):
 
     ## read http error codes
     content = str(urllib2.urlopen(req).read())
+    
+    #content = content.encode("utf-8")
     
     if self.debug == 1:
       self.Debug(content) 

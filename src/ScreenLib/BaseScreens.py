@@ -16,6 +16,7 @@ class Smb_BaseScreen(Screen):
   skin = """
     <screen position="center,center" size="460,400" title="MainMenu" >
       <widget name="myMenu" position="10,10" size="420,380" scrollbarMode="showOnDemand" />
+      <widget name="Statusbar" position="10,390" size="530,20" font="Regular;12"/>      
     </screen>"""
   
   def __init__(self, session, args = 0):
