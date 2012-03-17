@@ -95,8 +95,7 @@ class MainMenu(Smb_BaseListScreen):
   def ActionHelperDelete(self):
     self.session.openWithCallback(self.ActionDelete, MessageBox, _("Do you want delete this item?"), MessageBox.TYPE_YESNO)   
 
-  def AddFriendCallback(self, word):
-    word = 'admin'
+  def AddFriendCallback(self, word = None):
     if word is None: return
     
     try:      

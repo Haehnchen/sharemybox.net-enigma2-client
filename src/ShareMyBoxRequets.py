@@ -14,8 +14,7 @@ from poster.streaminghttp import register_openers
 from boxwrapper import get_mac
 from dreamclass import UserInfo
 
-API_PATH = 'http://ch.espend.de/'
-DEBUG_PATH = 'http://ch.espend.de/front/debug'
+API_PATH = 'http://api.sharemybox.net/'
 
 VERSION = "1.0"
 
@@ -23,25 +22,10 @@ class ShareMyBoxApi(object):
   __auth = {}
   __base_url = API_PATH
   __reg = None
-  
+
+  # old one  
   __ops = {
     #'GetPrivateKey': 'user/GetPrivateKey',
-    #'GeneratePrivateKey': 'user/GeneratePrivateKey',
-    #'EventOnline': 'events/online',
-    #'ListBouquets': 'channellist/list',
-    #'RegisterBox': 'box/Register',
-    #'UploadBouquets': 'upload/Bouquets',
-    #'UploadFile': 'upload/file',
-    #'BouquetAdd': 'channellist/add',
-    #'BouquetDelete': 'bouquet/delete',
-    #'FileList': 'file/list',
-    #'FileDetails': 'file/details',
-    #'FileEdit': 'file/edit',
-    #'AddParentBox': 'box/parent',
-    #'ActionPerform': 'action/perform',
-    #'ActionDelete': 'action/delete',
-    #'MasterList': 'master/list',
-    #'Debug': 'api/devel',
   }
   
   def __init__(self, autharray = {}):
@@ -54,15 +38,12 @@ class ShareMyBoxApi(object):
   def GeneratePrivateKey(self): return self.Call()
   def FileList(self): return self.Call()   
   def ActionList(self): return self.Call()
-  def MasterList(self): return self.Call()
+  def FriendList(self): return self.Call()
   def ChannellistAvailable(self): return self.Call()
   def BoxDetails(self): return self.Call()
   def ChannellistList(self): return self.Call()
   def RecordGet(self): return self.Call()
   def BoxRegister(self): return self.Call(False)
-  
-    
-  
       
   def GetPrivateKey(self):
     if self.__auth.has_key('user') and self.__auth.has_key('password'):
@@ -347,7 +328,7 @@ class ShareMyBoxApiRequest(object):
 
     self.__headers['User-Agent'] = ''      
     for key, value in agents.iteritems():
-      self.__headers['User-Agent'] += "%s/%s " % (key, value)
+      self.__headers['User-Agent'] += '%s/"%s" ' % (key, value)
       
     self.__headers['User-Agent'] = self.__headers['User-Agent'].strip()
 

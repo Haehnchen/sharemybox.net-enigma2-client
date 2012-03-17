@@ -76,9 +76,9 @@ class Smb_Channellist_MainMenu(Smb_BaseListScreen):
   def onMenuChanged(self, item):
     obj = item[-1]
     items = {
-          'Update': dreamclass.format_date(obj['updated_on']),
-          'Orbitals': str(obj['orbitals']),
-          'Comment': str(obj['comment']),
+          'Update': dreamclass.format_date(obj.get('content_updated')),
+          'Orbitals': str(obj.get('orbitals')),
+          'Comment': str(obj.get('comment')),
           }
 
     self.DescriptionToText(items)      
@@ -137,7 +137,7 @@ class Smb_Channellist_MainMenu(Smb_BaseListScreen):
         
       zip = boxwrapper.GetConfigDir() + "/bouquets.zip"      
       Request().ChannellistDownload(self.Id(), zip)
-      dreamclass.Uncompress(zip)      
+      dreamclass.Uncompress(zip, True)
               
       self.session.openWithCallback(self.restart, MessageBox, _("Restart to reload new channelllist?"), MessageBox.TYPE_YESNO)
       self.SetMessage('Download ok')
@@ -149,9 +149,8 @@ class Smb_Channellist_MainMenu(Smb_BaseListScreen):
     try:      
       if result is False or self.Id() is None: return     
           
-      path = boxwrapper.GetConfigDir()
-      bfile = path + "/bouquets.tv"
-      bouquets = dreamclass.BouquetsFilesFindAsArray(bfile)
+      path = boxwrapper.GetConfigDir() + '/'
+      bouquets = dreamclass.BouquetsFilesFindAsArray(path, ["bouquets.tv", "bouquets.radio"])
             
       tmp = dreamclass.Compress(bouquets)
       upload = [tmp]

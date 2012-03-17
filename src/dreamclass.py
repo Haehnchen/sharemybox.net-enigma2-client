@@ -42,26 +42,7 @@ def GetIconName(string):
     string += '.png'
     
   return string.lower()
-  
-def BouqetFilesFind(bouqetfile):
-    back = []
 
-    content = ReadFile(bouqetfile)
-    back[bouqetfile] = content
-    
-    back.append(bouqetfile)
-    
-    dirname = os.path.dirname(bouqetfile)
-    
-    if os.path.isfile(dirname + '/lamedb'):
-      back.append(dirname + '/lamedb')
-
-    for x in re.findall('FROM BOUQUET "(.*?)"', content, re.I):
-      x = dirname + '/' + x
-      if os.path.isfile(x):
-        back[x] = ReadFile(x)
-    return back
-  
 def Uncompress(zipfilename, delete = False):
   sourceZip = zipfile.ZipFile(zipfilename, 'r')  
   
@@ -92,26 +73,34 @@ def Compress(files):
   
   return filename
   
-def BouquetsFilesFindAsArray(bouqetfile):
+def BouquetsFilesFindAsArray(dirname, files):
     back = []
-    
-    content = ReadFile(bouqetfile)
-    back.append(bouqetfile)
-    
-    dirname = os.path.dirname(bouqetfile)
-    
+
     if os.path.isfile(dirname + '/lamedb'):
       back.append(dirname + '/lamedb')
     
-
-    for x in re.findall('1:7:1:0:0:0:0:0:0:0:(.*)', content, re.I):
-
-      for match in re.findall('FROM BOUQUET "(.*?)"', x, re.I):
-        x = match      
-      
-      x = dirname + '/' + x
-      if os.path.isfile(x):
-        back.append(x)
+    if isinstance(files, str):
+      files = [files]    
+    
+    for bouqetfile in files:
+      bouqetfile = dirname + bouqetfile
+      content = ReadFile(bouqetfile)
+      back.append(bouqetfile)
+  
+      #SERVICE: 1:7:[1|2]:0:0:0:0:0:0:0:(.*?)
+      #SERVICE 1:7:1:0:0:0:0:0:0:0:FROM BOUQUET "userbouquet.mein_tv.tv" ORDER BY bouquet
+      for x in re.findall('1:7:[1|2]:0:0:0:0:0:0:0:(.*)', content, re.I):
+  
+        # @TODO use only one match here
+        match = re.match('FROM BOUQUET "(.*?)" ORDER', x, re.I)
+        if match is not None:
+          x = match.group(1)        
+        #for match in re.findall('FROM BOUQUET "(.*?)"', x, re.I):
+        #  x = match      
+        
+        x = dirname + '/' + x
+        if os.path.isfile(x):
+          back.append(x)
         
     return back    
   
