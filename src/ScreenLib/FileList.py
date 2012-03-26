@@ -47,23 +47,15 @@ class MainMenu(Smb_BaseListScreen):
     
     self.context = ["ChannelSelectBaseActions","WizardActions", "DirectionActions","MenuActions","NumberActions","ColorActions"]
         
-        
-        
-  def buildlist(self):
+
+  def buildlist_ext(self, api):
     
     list = []
     
     file_outdated = boxwrapper.Icon("file_outdated")
     file_not_found = boxwrapper.Icon("file_not_found")
-    png = boxwrapper.Icon("files")
-        
-    try:
-      api = boxwrapper.SendRequestAuth('FileList').GetList()
-    except Exception as e:
-      self.ErrorException(e)
-      return        
-        
-
+    png = boxwrapper.Icon("files")    
+    
     for x in api:
       
       icon = png
@@ -73,7 +65,6 @@ class MainMenu(Smb_BaseListScreen):
       else:
         if os.path.getmtime(filename) < x['updated_on']:
           icon = file_outdated 
-        
       
       list.append([
             str(x['fid']),
@@ -83,7 +74,17 @@ class MainMenu(Smb_BaseListScreen):
             x
     ])
       
-    return list  
+    return list      
+        
+  def buildlist(self):
+        
+    try:
+      api = boxwrapper.SendRequestAuth('FileList').GetList()
+    except Exception as e:
+      self.ErrorException(e)
+      return        
+
+    return self.buildlist_ext(api)
   
   
   
@@ -136,17 +137,15 @@ class MainMenu(Smb_BaseListScreen):
       self.SetMessage("Error:" + str(e))      
       
   def download(self, result = False):
-    if not self["myMenu"].l.getCurrentSelection(): return
-    if result is False: return
-    if self.Id() is None: return   
-    
-    Request().FileDownload(self.Id())
-    self.SetMessage('Download successfully')
-    self.rebuild()
-        
-    try:    
-      pass
-          
+    try:
+      if result is False: return
+      if not self["myMenu"].l.getCurrentSelection(): return
+      if self.Id() is None: return   
+      
+      Request().FileDownload(self.Id())
+      self.SetMessage('Download successfully')
+      self.rebuild()
+            
     except Exception as e:
       self.SetMessage("Error:" + str(e))      
       

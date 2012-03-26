@@ -15,6 +15,7 @@ from Tools.LoadPixmap import LoadPixmap
 from Plugins.Extensions.ShareMyBox.ShareMyBoxRequets import ShareMyBoxApi as Request 
 from Plugins.Extensions.ShareMyBox.ShareMyBoxTimer import ShareMyBoxTimer
 from Tools.Notifications import AddPopup
+from ServiceReference import ServiceReference
 
 from RecordTimer import RecordTimerEntry, RecordTimer, AFTEREVENT, parseEvent
 
@@ -22,6 +23,7 @@ from RecordTimer import RecordTimerEntry, RecordTimer, AFTEREVENT, parseEvent
 NOTIFICATIONID = 'Test'
 
 import Screens.Ipkg 
+import re
 
 UPDATE_URL = "http://sharemybox.net/client/sharemybox_lastest_mipsel.ipk"
 
@@ -67,19 +69,20 @@ class Smb_Tools_MainMenu(Smb_BaseScreen):
     
   def ok(self):
     
-    try:
-    
-      returnItems = self["myMenu"].l.getCurrentSelection()[0]
-      returnValue = returnItems['func']
-        
-      if returnItems.has_key('needaccess') and self.itemaccess(returnItems['needaccess']) is False:
-        self.SetMessage('no access')
-        return    
-        
-      returnValue(returnItems)
+    #try:
   
-    except Exception as e:
-      self.SetMessage(str(e))
+    #except Exception as e:
+    #   self.SetMessage(str(e))
+          
+    returnItems = self["myMenu"].l.getCurrentSelection()[0]
+    returnValue = returnItems['func']
+        
+    if returnItems.has_key('needaccess') and self.itemaccess(returnItems['needaccess']) is False:
+      self.SetMessage('no access')
+      return    
+        
+    returnValue(returnItems)
+
    
   def msgUpdate(self, item = None):
     self.session.openWithCallback(self.EventStartUpdate,MessageBox,_("Update Client now:\nDo you want to download and install now?"), MessageBox.TYPE_YESNO)
@@ -87,21 +90,48 @@ class Smb_Tools_MainMenu(Smb_BaseScreen):
   def itemaccess(self, item):
     return dreamclass.GetAccess(item) == True      
     
+    
+  def is_in(self, timers, timer_item):
+    for timer in timers:
+      if str(timer.begin) == str(timer_item['begin']):
+        if str(timer.end) == str(timer_item['end']):
+          if str(timer.service_ref).upper() == str(timer_item['serviceref'].upper()):
+            return True
+    
+    return False
+        
   def records(self, item = None):
 
-    records = Request().RecordGet().GetList()
-    timers_file = boxwrapper.GetConfigDir() + '/timers.xml'
 
-    worker = ShareMyBoxTimer(timers_file, records)
-    if worker.worker() == True:
-      test = RecordTimer()
-      test.saveTimer()
-      test.shutdown()
-      self.SetMessage('Records synced')
+    #begin = "1332611100"
+    #end = "1332611101"
+    #duration = int(begin) - int(end)
+    #serviceref = "1:0:19:EF10:421:1:C00000:0:0:0:"
+    #service = ServiceReference("1:0:19:EF10:421:1:C00000:0:0:0:")
+    
+    ext_timer = Request().RecordGet().GetList()
+    recordtimer = ShareMyBoxTimer(RecordTimer(), ext_timer)
+    recordtimer.addTimer(ext_timer[0])
+    return 
+    if recordtimer.worker() is True:
+      self.SetMessage('Updated')
     else:
-      self.SetMessage('Already up to date')
+      self.SetMessage('Nothing todo')
+  
+    #worker = ShareMyBoxTimer(timers_file, records)
+    #if worker.worker() == True:
+    #  test = RecordTimer()
+    #  test.saveTimer()
+    #  test.shutdown()
+    #  self.SetMessage('Records synced')
+    #else:
+    #  self.SetMessage('Already up to date')
     #AddPopup('test', MessageBox.TYPE_INFO,5, NOTIFICATIONID)    
     
+
+
+        
+ 
       
   def EventStartUpdate(self, result = False):
     if result is False: return
@@ -114,10 +144,12 @@ class Smb_Tools_MainMenu(Smb_BaseScreen):
     container.appClosed.append(self.EventUpdated)
     container.execute(cmd)
   
-"""    
+
   def EventUpdated(self):
     self.session.openWithCallback(self.restartGUI, MessageBox, _("Plugin successfully updated!\nDo you want to restart Enigma2 GUI now?"), MessageBox.TYPE_YESNO)
 
+
+"""
   def restartGUI(self, result):
     if result is None: return
     self.session.open(TryQuitMainloop, 3)        

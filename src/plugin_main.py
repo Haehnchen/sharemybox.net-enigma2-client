@@ -36,6 +36,7 @@ import ScreenLib.Actions
 import ScreenLib.MasterBox
 import ScreenLib.DownloadChannelList
 import ScreenLib.ChannellistAvailable
+import ScreenLib.FileAvailable
 import ScreenLib.SmbTools
 
 from skin import loadSkin, lookupScreen, dom_skins
@@ -65,7 +66,8 @@ class Smb_MainMenu(Screen):
     api = []
     api.append({'name': _("Edit your channellists"), 'description': 'Manage your Channellists', 'func': self.actions.MyChannels, 'icon': 'channellist', 'needaccess' : ACCESS.MARRIED})
     api.append({'name': "List available channellists", 'description': 'Available Channellists', 'func': self.actions.AvailableChannellists, 'icon': 'channellist_dl', 'needaccess' : ACCESS.REGISTERED})
-    api.append({'name': "List Files", 'description': 'List your files', 'func': self.actions.FileList, 'icon': 'filesync', 'needaccess' : ACCESS.REGISTERED})
+    api.append({'name': "List Files", 'description': 'List your files', 'func': self.actions.AvailableFiles, 'icon': 'filesync', 'needaccess' : ACCESS.REGISTERED})
+    api.append({'name': "List available Files", 'description': 'List your files', 'func': self.actions.FileList, 'icon': 'filesync', 'needaccess' : ACCESS.REGISTERED})
     api.append({'name': "Friends", 'description': 'List and add new friends', 'func': self.actions.Masters, 'icon': 'register', 'needaccess' : ACCESS.REGISTERED})
     
     api.append({'name': "Tools", 'description': 'Tools and other Stuff', 'func': self.actions.Tools, 'icon': 'tools'})
@@ -236,6 +238,11 @@ class Smb_MainMenu(Screen):
     def AvailableChannellists(YourScreen, item):
       reload(ScreenLib.ChannellistAvailable)
       YourScreen.session.open(ScreenLib.ChannellistAvailable.Smb_ChannellistAvailable_MainMenu)  
+      
+    @staticmethod      
+    def AvailableFiles(YourScreen, item):
+      reload(ScreenLib.FileAvailable)
+      YourScreen.session.open(ScreenLib.FileAvailable.Smb_FileAvailable_MainMenu)        
       
     @staticmethod      
     def Tools(YourScreen, item):

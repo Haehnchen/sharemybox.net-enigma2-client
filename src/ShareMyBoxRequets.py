@@ -37,6 +37,7 @@ class ShareMyBoxApi(object):
 
   def GeneratePrivateKey(self): return self.Call()
   def FileList(self): return self.Call()   
+  def FileAvailable(self): return self.Call()
   def ActionList(self): return self.Call()
   def FriendList(self): return self.Call()
   def ChannellistAvailable(self): return self.Call()

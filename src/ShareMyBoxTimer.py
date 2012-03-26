@@ -2,7 +2,164 @@ import datetime, time, re
 from xml.etree.cElementTree import parse as cet_parse
 from xml.dom.minidom import parse
 
+from ServiceReference import ServiceReference
+from RecordTimer import RecordTimerEntry, RecordTimer, AFTEREVENT, parseEvent
+
 class ShareMyBoxTimer(object):
+  
+  __recordtimer = None
+  __external_timers = None
+  updated = False
+  log = []
+  
+  def __init__(self, recordtimer, external_timers):
+    self.__recordtimer = recordtimer
+    self.__external_timers = self.prepare_events(external_timers)
+  
+  def prepare_events(self, events):
+    list = []
+    for event in events:
+      #event['begin'] = self.to_local_timestamp(event['begin'])
+      #event['end'] = self.to_local_timestamp(event['end'])
+
+      #event['begin'] = int(event['begin']) + int(self.dif_time().seconds)
+      #event['end'] = int(event['end']) + int(self.dif_time().seconds)
+
+      event['name'] = event['name'].encode('ascii', 'ignore')
+
+      # append whitespace in description is in use
+      if (event.get('description', '') != ""):
+        event['description'] = event['description'] + ' '
+        
+      event['description'] = event.get('description', '') + '[' + event['rid'] + ']'
+      list.append(event)
+      
+    return list  
+  
+  def current_ids(self):
+    return self.__getids(self.timers())
+  
+  def external_ids(self):
+    return self.__getids(self.__external_timers)  
+  
+  def __getids(self, timers):
+    ids = []
+    for event in timers:
+      id = self.getid(event)
+      if id != False:
+        ids.append(int(id))
+              
+    return set(ids)  
+  
+  def timers(self):
+    return self.__recordtimer.timer_list
+  
+  def is_in(self, event):
+    for timer in self.__recordtimer.timer_list:
+      
+      if event.has_key('rid') and self.getid(timer) == event['rid']:
+        return True
+      
+      if str(event['begin']) == str(timer.begin) and str(event['end']) == str(timer.end) and str(event['serviceref'].upper()) == str(timer.service_ref).upper():
+        return True
+      
+    return False    
+  
+  def cleanup(self):
+    newid = self.external_ids()
+    oldid = self.current_ids()
+
+    diff = list(set(oldid) - set(newid))
+    
+    if len(diff) == 0:
+      return
+
+    for rid in diff:
+      self.__recordtimer.removeEntry(self.find_on_id(rid))
+      self.updated = True
+  
+  def find(self, event):
+    for timer in self.timers():
+      
+      if self.getid(timer) == timer['rid']:
+        return event
+      
+      if str(event['begin']) == str(timer.begin) and str(event['end']) == str(timer.end) and str(event['serviceref'].upper()) == str(timer.service_ref).upper():
+        return event
+      
+    return False     
+  
+  def find_on_id(self, rid):
+    for timer in self.timers():
+      if self.getid(timer) == rid:
+        return timer
+      
+    return False     
+  
+  def getid(self, event):
+    description = ''
+    if isinstance(event, dict) and event.has_key('description'):
+      description = event['description']
+    elif hasattr(event, 'description'):
+      description = event.description   
+    
+    matches = re.compile('\[(\d+)\]$').findall(description)
+    if matches != []:
+      return int(matches[0])
+        
+    return False    
+
+  def sync(self):
+    for ext_timer in self.__external_timers:
+      if not self.is_in(ext_timer):
+        self.updated = True
+        self.log.append(self.addTimer(ext_timer))
+        
+
+  def worker(self):
+    self.cleanup()
+    self.sync()
+    return self.updated
+    
+  def addTimer(self, timer):
+    try:
+      name = str(timer['name'])
+      description = str(timer['description'])
+      begin = int(timer['begin'])
+      end = int(timer['end'])
+      serviceref = ServiceReference(str(timer['serviceref']))
+      eit = "54618"
+
+      begin = "1332621900"
+      end = "1332622200"
+      name = "Ziehung der Lottozahlen"
+      serviceref = ServiceReference("1:0:19:2B5C:3F3:1:C00000:0:0:0:")
+    
+    #afterevent="auto" eit="54618" location="/hdd/movie/" tags="" disabled="0" justplay="0">
+
+
+      timer = RecordTimerEntry(serviceref, begin, end, name, description, eit)
+      timer.repeated = 0
+      
+      conflicts = self.__recordtimer.record(timer, ignoreTSC=True)
+      if conflicts is None:
+        return ( True, "Timer '%s' added" %(timer.name) )
+      else:
+        print "[WebComponents.Timer] editTimer conflicting Timers: %s" %(conflicts)
+        msg = ""
+        for timer in conflicts:
+          msg = "%s / %s" %(msg, timer.name)        
+          
+        return (False, "Conflicting Timer(s) detected! %s" %(msg))   
+
+    except Exception, e:
+      #something went wrong, most possibly one of the given paramater-values was wrong
+      print "[WebComponents.Timer] editTimer exception: %s" %(e)
+      return ( False, "Could not add timer '%s'!" % e )
+
+    return ( False, "Unexpected Error" )   
+
+class ShareMyBoxTimerOld(object):
   
   __timer_filename = ''
   __requested_items = []
@@ -41,13 +198,16 @@ class ShareMyBoxTimer(object):
   def prepare_events(self):
     list = []
     for event in self.__requested_items:
-      event['begin'] = self.to_local_timestamp(event['begin'])
-      event['end'] = self.to_local_timestamp(event['end'])
+      #event['begin'] = self.to_local_timestamp(event['begin'])
+      #event['end'] = self.to_local_timestamp(event['end'])
+
+      event['begin'] = int(event['begin']) + int(self.dif_time().seconds)
+      event['end'] = int(event['end']) + int(self.dif_time().seconds)
 
       if (event.get('description', '') != ""):
         event['description'] = event['description'] + ' '
         
-      event['description'] = event.get('description', '') + '[' + event['rec_id'] + ']'
+      event['description'] = event.get('description', '') + '[' + event['rid'] + ']'
       list.append(event)
       
     return list
@@ -95,7 +255,7 @@ class ShareMyBoxTimer(object):
     for event in self.__timers:
       
       # no used; timer worker filter out unknown attributes
-      if timer.has_key('rec_id') and event.has_key('rec_id') and event['rec_id'] == timer['rec_id']:
+      if timer.has_key('rid') and event.has_key('rid') and event['rid'] == timer['rid']:
         return True
       
       if str(event['begin']) == str(timer['begin']) and str(event['end']) == str(timer['end']) and str(event['serviceref'].upper()) == str(timer['serviceref'].upper()):
@@ -149,8 +309,8 @@ class ShareMyBoxTimer(object):
       matches = re.compile('\[(\d+)\]$').findall(event['description'])
       if matches != []:
         return int(matches[0])
-      elif event.has_key('rec_id'):
-        return int(event['rec_id'])
+      elif event.has_key('rid'):
+        return int(event['rid'])
         
       return False    
     
