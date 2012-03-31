@@ -70,6 +70,19 @@ class ShareMyBoxTimer(object):
       
     return False    
   
+    
+    
+  def is_in_new(self, timers, timer_item):
+    for timer in timers:
+      if str(timer.begin) == str(timer_item['begin']):
+        if str(timer.end) == str(timer_item['end']):
+          if str(timer.service_ref).upper() == str(timer_item['serviceref'].upper()):
+            return True
+    
+    return False
+        
+    
+  
   def cleanup(self):
     newid = self.external_ids()
     oldid = self.current_ids()

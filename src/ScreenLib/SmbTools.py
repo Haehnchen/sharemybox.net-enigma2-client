@@ -91,18 +91,6 @@ class Smb_Tools_MainMenu(Smb_BaseScreen):
   def itemaccess(self, item):
     return dreamclass.GetAccess(item) == True      
     
-    
-  def is_in(self, timers, timer_item):
-    for timer in timers:
-      if str(timer.begin) == str(timer_item['begin']):
-        if str(timer.end) == str(timer_item['end']):
-          if str(timer.service_ref).upper() == str(timer_item['serviceref'].upper()):
-            return True
-    
-    return False
-        
-  
-    
   def records(self, item = None):
     ext_timer = Request().RecordGet().GetList()
     recordtimer = ShareMyBoxTimer(self.session.nav.RecordTimer, ext_timer)
@@ -111,7 +99,6 @@ class Smb_Tools_MainMenu(Smb_BaseScreen):
       self.SetMessage('Updated')
     else:
       self.SetMessage('Nothing todo')    
-
       
   def EventStartUpdate(self, result = False):
     if result is False: return

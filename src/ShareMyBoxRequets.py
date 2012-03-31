@@ -45,6 +45,7 @@ class ShareMyBoxApi(object):
   def ChannellistList(self): return self.Call()
   def RecordGet(self): return self.Call()
   def BoxRegister(self): return self.Call(False)
+
       
   def GetPrivateKey(self):
     if self.__auth.has_key('user') and self.__auth.has_key('password'):
@@ -79,6 +80,10 @@ class ShareMyBoxApi(object):
     self.__reg.AddVariables(values)
     self.__reg.AddVariable("fid", fid)    
     return self.Call()  
+  
+  def BoxEdit(self, values):
+    self.__reg.AddVariables(values)
+    return self.Call()    
   
   def ChannellistUpload(self, oid, files):
     self.__reg.AddFiles(files)

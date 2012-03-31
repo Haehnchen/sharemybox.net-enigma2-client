@@ -8,7 +8,7 @@ from Screens.Screen import Screen
 
 from Screens.MessageBox import MessageBox
 
-from Components.config import config, ConfigSubsection, configfile, ConfigPassword, ConfigText
+from Components.config import config, ConfigSubsection, configfile, ConfigPassword, ConfigText, ConfigYesNo
 
 import os, enigma
 import dreamclass
@@ -22,6 +22,9 @@ from Tools.LoadPixmap import LoadPixmap
 config.plugins.ShareIt = ConfigSubsection()
 config.plugins.ShareIt.Key = ConfigText()
 config.plugins.ShareIt.privatekey = ConfigText()
+
+config.plugins.ShareMyBox = ConfigSubsection()
+config.plugins.ShareMyBox.autosync_timers = ConfigYesNo()
 
 def GetConfigDir():
   return os.path.dirname(configfile.CONFIG_FILE)
@@ -56,6 +59,18 @@ def DownloadBouquetFiles(file):
   zip = GetConfigDir() + "/bouquets.zip"
   ret = ShareMyBoxRequets.ShareMyBoxApi().ChannellistGet(zip)
   dreamclass.Uncompress(zip)
+
+def variable_get(name, default = None):
+  vals = config.plugins.ShareMyBox.getSavedValue()
+  if name in vals:
+    return vals[name]
+
+  return default
+ 
+def variable_save(name, value):
+  getattr(config.plugins.ShareMyBox, name).value  = value
+  config.plugins.ShareMyBox.save()
+  configfile.save()    
 
 def RegisterMe(session, mail):
   try:  

@@ -38,6 +38,8 @@ import ScreenLib.DownloadChannelList
 import ScreenLib.ChannellistAvailable
 import ScreenLib.FileAvailable
 import ScreenLib.SmbTools
+import ScreenLib.SmbSettings
+
 
 from skin import loadSkin, lookupScreen, dom_skins
 loadSkin(os.path.dirname(os.path.realpath(__file__)) + '/skin.xml')
@@ -71,6 +73,7 @@ class Smb_MainMenu(Screen):
     api.append({'name': "Friends", 'description': 'List and add new friends', 'func': self.actions.Masters, 'icon': 'register', 'needaccess' : ACCESS.REGISTERED})
     
     api.append({'name': "Tools", 'description': 'Tools and other Stuff', 'func': self.actions.Tools, 'icon': 'tools'})
+    api.append({'name': "Settings", 'description': 'ShareMyBox Settings', 'func': self.actions.Settings, 'icon': 'settings', 'needaccess' : ACCESS.REGISTERED})
     
     if dreamclass.GetAccess(ACCESS.REGISTERED) is True and dreamclass.GetAccess(ACCESS.MARRIED) is False:
       api.append({'name': "Add Account", 'description': 'Add (marry) account on mail / username to your box', 'func': self.actions.Marry, 'icon': 'mail', 'needaccess' : not dreamclass.GetAccess(ACCESS.MARRIED)})
@@ -216,6 +219,13 @@ class Smb_MainMenu(Screen):
       UserInfo().Reset()        
       YourScreen.rebuild()
       YourScreen.SetMessage('Reset')
+      
+    @staticmethod
+    def Settings(YourScreen, item):
+      reload(ScreenLib.SmbSettings)
+      YourScreen.session.open(ScreenLib.SmbSettings.Smb_Settings)  
+    
+      
       
     @staticmethod      
     def RegisterBox(YourScreen, item):
