@@ -4,6 +4,11 @@ from xml.dom.minidom import parse
 
 from ServiceReference import ServiceReference
 from RecordTimer import RecordTimerEntry, RecordTimer, AFTEREVENT, parseEvent
+from Components.UsageConfig import preferredInstantRecordPath, preferredTimerPath
+
+from Components.UsageConfig import preferredInstantRecordPath, preferredTimerPath
+from time import time, strftime, localtime, mktime
+from xml.sax.saxutils import unescape
 
 class ShareMyBoxTimer(object):
   
@@ -113,7 +118,7 @@ class ShareMyBoxTimer(object):
     for ext_timer in self.__external_timers:
       if not self.is_in(ext_timer):
         self.updated = True
-        self.log.append(self.addTimer(ext_timer))
+        self.log.append(self.editTimer(ext_timer))
         
 
   def worker(self):
@@ -121,27 +126,139 @@ class ShareMyBoxTimer(object):
     self.sync()
     return self.updated
     
-  def addTimer(self, timer):
+  def editTimer(self, param):
+    print "[WebComponents.Timer] editTimer"
+
+    #OK first we need to parse all of your Parameters
+    #For some of them (like afterEvent or justplay) we can use default values
+    #for others (the serviceReference or the Begin/End time of the timer
+    #we have to quit if they are not set/have illegal values
+
+    if 'serviceref' in param:
+      param['sRef'] = str(param['serviceref'])
+
+    if 'sRef' not in param:
+      return ( False, "Missing Parameter: sRef" )
+    service_ref = ServiceReference(param['sRef'])
+
+    repeated = int(param.get('repeated') or 0)
+
+    if 'begin' not in param:
+      return ( False, "Missing Parameter: begin" )
+    begin = int(float(param['begin']))
+
+    if 'end' not in param:
+      return ( False, "Missing Parameter: end" )
+    end = int(float(param['end']))
+
+    tm = time()
+    if tm <= begin:
+      pass
+    elif tm > begin and tm < end and repeated == 0:
+      begin = time()
+    elif repeated == 0:
+      return ( False, "Illegal Parameter value for Parameter begin : '%s'" % begin )
+
+    if 'name' not in param:
+      return ( False, "Missing Parameter: name" )
+    name = param['name']
+
+    if 'description' not in param:
+      return ( False, "Missing Parameter: description" )
+    description = param['description'].replace("\n", " ")
+
+    disabled = False #Default to: Enabled
+    if 'disabled' in param:
+      if param['disabled'] == "1":
+        disabled = True
+      else:
+        #TODO - maybe we can give the user some useful hint here
+        pass
+
+    justplay = False #Default to: Record
+    if 'justplay' in param:
+      if param['justplay'] == "1":
+        justplay = True
+
+    afterEvent = 3 #Default to Afterevent: Auto
+    if 'afterevent' in param:
+      if (param['afterevent'] == "0") or (param['afterevent'] == "1") or (param['afterevent'] == "2"):
+        afterEvent = int(param['afterevent'])
+
+    dirname = preferredTimerPath()
+    if 'dirname' in param and param['dirname']:
+      dirname = param['dirname']
+
+    tags = []
+    if 'tags' in param and param['tags']:
+      tags = unescape(param['tags']).split(' ')
+
+    delold = 0
+    if 'deleteOldOnSave' in param:
+      delold = int(param['deleteOldOnSave'])
+
+    #Try to edit an existing Timer
+    if delold:
+      if 'channelOld' in param and param['channelOld']:
+        channelOld = ServiceReference(param['channelOld'])
+      else:
+        return ( False, "Missing Parameter: channelOld" )
+      # We do need all of the following Parameters, too, for being able of finding the Timer.
+      # Therefore so we can neither use default values in this part nor can we
+      # continue if a parameter is missing
+      if 'beginOld' not in param:
+        return ( False, "Missing Parameter: beginOld" )
+      beginOld = int(param['beginOld'])
+
+      if 'endOld' not in param:
+        return ( False, "Missing Parameter: endOld" )
+      endOld = int(param['endOld'])
+
+      #let's try to find the timer
+      try:
+        for timer in self.__recordtimer.timer_list + self.__recordtimer.processed_timers:
+          if str(timer.service_ref) == str(channelOld):
+            if int(timer.begin) == beginOld:
+              if int(timer.end) == endOld:                
+                #we've found the timer we've been searching for                
+                
+                #Delete the old entry
+                self.__recordtimer.removeEntry(timer)
+                old = timer
+                
+                timer = RecordTimerEntry(service_ref, begin, end, name, description, 0, disabled, justplay, afterEvent, dirname=dirname, tags=tags)
+                timer.repeated = repeated
+                timer.log_entries = old.log_entries                
+                
+                timer.processRepeated()                
+                #send the changed timer back to enigma2 and hope it's good
+                
+                conflicts = self.__recordtimer.record(timer)
+                if conflicts is None:
+                  print "[WebComponents.Timer] editTimer: Timer changed!"
+                  return ( True, "Timer '%s' changed" %(timer.name) )
+                else:
+                  print "[WebComponents.Timer] editTimer conflicting Timers: %s" %(conflicts)
+                  msg = ""
+                  for timer in conflicts:
+                    msg = "%s / %s" %(msg, timer.name)        
+                    
+                  return (False, "Conflicting Timer(s) detected! %s" %(msg)) 
+
+      except Exception:
+        #obviously some value was not good, return an error
+        return ( False, "Changing the timer for '%s' failed!" % name )
+
+      return ( False, "Could not find timer '%s' with given start and end time!" % name )
+
+    #Try adding a new Timer
+
     try:
-      name = str(timer['name'])
-      description = str(timer['description'])
-      begin = int(timer['begin'])
-      end = int(timer['end'])
-      serviceref = ServiceReference(str(timer['serviceref']))
-      eit = "54618"
-
-      begin = "1332621900"
-      end = "1332622200"
-      name = "Ziehung der Lottozahlen"
-      serviceref = ServiceReference("1:0:19:2B5C:3F3:1:C00000:0:0:0:")
-    
-    #afterevent="auto" eit="54618" location="/hdd/movie/" tags="" disabled="0" justplay="0">
-
-
-      timer = RecordTimerEntry(serviceref, begin, end, name, description, eit)
-      timer.repeated = 0
-      
-      conflicts = self.__recordtimer.record(timer, ignoreTSC=True)
+      #Create a new instance of recordtimerentry
+      timer = RecordTimerEntry(service_ref, begin, end, name, description, 0, disabled, justplay, afterEvent, dirname=dirname, tags=tags)
+      timer.repeated = repeated
+      #add the new timer
+      conflicts = self.__recordtimer.record(timer)
       if conflicts is None:
         return ( True, "Timer '%s' added" %(timer.name) )
       else:
@@ -150,14 +267,14 @@ class ShareMyBoxTimer(object):
         for timer in conflicts:
           msg = "%s / %s" %(msg, timer.name)        
           
-        return (False, "Conflicting Timer(s) detected! %s" %(msg))   
-
+        return (False, "Conflicting Timer(s) detected! %s" %(msg)) 
+        
     except Exception, e:
       #something went wrong, most possibly one of the given paramater-values was wrong
       print "[WebComponents.Timer] editTimer exception: %s" %(e)
-      return ( False, "Could not add timer '%s'!" % e )
+      return ( False, "Could not add timer '%s'!" % name )
 
-    return ( False, "Unexpected Error" )   
+    return ( False, "Unexpected Error" )
 
 class ShareMyBoxTimerOld(object):
   

@@ -12,6 +12,7 @@ from enigma import eListboxPythonMultiContent, gFont
 from Components.MenuList import MenuList
 from enigma import eConsoleAppContainer
 from Tools.LoadPixmap import LoadPixmap
+import Plugins.Extensions.ShareMyBox.ShareMyBoxTimer
 from Plugins.Extensions.ShareMyBox.ShareMyBoxRequets import ShareMyBoxApi as Request 
 from Plugins.Extensions.ShareMyBox.ShareMyBoxTimer import ShareMyBoxTimer
 from Tools.Notifications import AddPopup
@@ -100,38 +101,17 @@ class Smb_Tools_MainMenu(Smb_BaseScreen):
     
     return False
         
-  def records(self, item = None):
-
-
-    #begin = "1332611100"
-    #end = "1332611101"
-    #duration = int(begin) - int(end)
-    #serviceref = "1:0:19:EF10:421:1:C00000:0:0:0:"
-    #service = ServiceReference("1:0:19:EF10:421:1:C00000:0:0:0:")
+  
     
+  def records(self, item = None):
     ext_timer = Request().RecordGet().GetList()
-    recordtimer = ShareMyBoxTimer(RecordTimer(), ext_timer)
-    recordtimer.addTimer(ext_timer[0])
-    return 
+    recordtimer = ShareMyBoxTimer(self.session.nav.RecordTimer, ext_timer)
+
     if recordtimer.worker() is True:
       self.SetMessage('Updated')
     else:
-      self.SetMessage('Nothing todo')
-  
-    #worker = ShareMyBoxTimer(timers_file, records)
-    #if worker.worker() == True:
-    #  test = RecordTimer()
-    #  test.saveTimer()
-    #  test.shutdown()
-    #  self.SetMessage('Records synced')
-    #else:
-    #  self.SetMessage('Already up to date')
-    #AddPopup('test', MessageBox.TYPE_INFO,5, NOTIFICATIONID)    
-    
+      self.SetMessage('Nothing todo')    
 
-
-        
- 
       
   def EventStartUpdate(self, result = False):
     if result is False: return
