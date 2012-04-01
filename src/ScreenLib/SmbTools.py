@@ -14,7 +14,7 @@ from enigma import eConsoleAppContainer
 from Tools.LoadPixmap import LoadPixmap
 import Plugins.Extensions.ShareMyBox.ShareMyBoxTimer
 from Plugins.Extensions.ShareMyBox.ShareMyBoxRequets import ShareMyBoxApi as Request 
-from Plugins.Extensions.ShareMyBox.ShareMyBoxTimer import ShareMyBoxTimer
+from Plugins.Extensions.ShareMyBox.ShareMyBoxTimer import ShareMyBoxTimerWorker
 from Tools.Notifications import AddPopup
 from ServiceReference import ServiceReference
 
@@ -70,20 +70,20 @@ class Smb_Tools_MainMenu(Smb_BaseScreen):
     
   def ok(self):
     
-    #try:
-  
-    #except Exception as e:
-    #   self.SetMessage(str(e))
+    try:
+      
+      returnItems = self["myMenu"].l.getCurrentSelection()[0]
+      returnValue = returnItems['func']
           
-    returnItems = self["myMenu"].l.getCurrentSelection()[0]
-    returnValue = returnItems['func']
-        
-    if returnItems.has_key('needaccess') and self.itemaccess(returnItems['needaccess']) is False:
-      self.SetMessage('no access')
-      return    
-        
-    returnValue(returnItems)
-
+      if returnItems.has_key('needaccess') and self.itemaccess(returnItems['needaccess']) is False:
+        self.SetMessage('no access')
+        return    
+          
+      returnValue(returnItems)
+      
+    except Exception as e:
+      self.SetMessage(str(e))
+    
    
   def msgUpdate(self, item = None):
     self.session.openWithCallback(self.EventStartUpdate,MessageBox,_("Update Client now:\nDo you want to download and install now?"), MessageBox.TYPE_YESNO)
@@ -92,13 +92,8 @@ class Smb_Tools_MainMenu(Smb_BaseScreen):
     return dreamclass.GetAccess(item) == True      
     
   def records(self, item = None):
-    ext_timer = Request().RecordGet().GetList()
-    recordtimer = ShareMyBoxTimer(self.session.nav.RecordTimer, ext_timer)
-
-    if recordtimer.worker() is True:
-      self.SetMessage('Updated')
-    else:
-      self.SetMessage('Nothing todo')    
+    recordtimer = ShareMyBoxTimerWorker(self.session.nav.RecordTimer).run()
+    self.SetMessage(str(recordtimer))
       
   def EventStartUpdate(self, result = False):
     if result is False: return

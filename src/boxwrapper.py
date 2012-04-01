@@ -8,7 +8,7 @@ from Screens.Screen import Screen
 
 from Screens.MessageBox import MessageBox
 
-from Components.config import config, ConfigSubsection, configfile, ConfigPassword, ConfigText, ConfigYesNo
+from Components.config import config, ConfigSubsection, configfile, ConfigPassword, ConfigText, ConfigYesNo, ConfigInteger 
 
 import os, enigma
 import dreamclass
@@ -25,6 +25,7 @@ config.plugins.ShareIt.privatekey = ConfigText()
 
 config.plugins.ShareMyBox = ConfigSubsection()
 config.plugins.ShareMyBox.autosync_timers = ConfigYesNo()
+config.plugins.ShareMyBox.autosync_last = ConfigInteger(0)
 
 def GetConfigDir():
   return os.path.dirname(configfile.CONFIG_FILE)
@@ -67,8 +68,8 @@ def variable_get(name, default = None):
 
   return default
  
-def variable_save(name, value):
-  getattr(config.plugins.ShareMyBox, name).value  = value
+def variable_set(name, value):
+  getattr(config.plugins.ShareMyBox, name).setValue(value)
   config.plugins.ShareMyBox.save()
   configfile.save()    
 

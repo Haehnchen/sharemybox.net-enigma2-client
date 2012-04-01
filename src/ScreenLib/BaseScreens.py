@@ -112,7 +112,7 @@ class Smb_BaseEditScreen(ConfigListScreen, Screen):
   args = None
   
   skin = """
-    <screen name="WebIfConfigScreen" position="center,center" size="560,400" title="Webinterface: Main Setup">
+    <screen name="ConfigListScreen" position="center,center" size="560,400" title="ShareMyBox - Settings">
       <ePixmap pixmap="skin_default/buttons/red.png" position="0,0" size="140,40" alphatest="on" />
       <ePixmap pixmap="skin_default/buttons/green.png" position="140,0" size="140,40" alphatest="on" />
       <widget source="key_red" render="Label" position="0,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />

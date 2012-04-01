@@ -145,7 +145,7 @@ class Smb_MainMenu(Screen):
   def itemaccess(self, item):
     return dreamclass.GetAccess(item) == True
 
-  def SetMessage(self, msg):
+  def SetMessage(self, msg = ''):
       self["Statusbar"].text = str(msg)  
 
   def rebuild(self):
@@ -167,6 +167,13 @@ class Smb_MainMenu(Screen):
     except Exception, e:
       print 'Error:', e        
           
+  def MsgCallback(self, back = None):
+    self.SetMessage()
+    if back is None:
+      return
+    
+    self.SetMessage(str(back))
+              
   def MarryCallback(self, word):
     if word is None: return
     
@@ -223,10 +230,8 @@ class Smb_MainMenu(Screen):
     @staticmethod
     def Settings(YourScreen, item):
       reload(ScreenLib.SmbSettings)
-      YourScreen.session.open(ScreenLib.SmbSettings.Smb_Settings)  
-    
-      
-      
+      YourScreen.session.openWithCallback(YourScreen.MsgCallback, ScreenLib.SmbSettings.Smb_Settings)  
+     
     @staticmethod      
     def RegisterBox(YourScreen, item):
       key = YourScreen.SendRequest('BoxRegister').GetList()

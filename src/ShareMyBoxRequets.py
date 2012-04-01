@@ -44,6 +44,7 @@ class ShareMyBoxApi(object):
   def BoxDetails(self): return self.Call()
   def ChannellistList(self): return self.Call()
   def RecordGet(self): return self.Call()
+  def RecordDetails(self): return self.Call()
   def BoxRegister(self): return self.Call(False)
 
       

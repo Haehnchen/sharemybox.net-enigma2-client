@@ -10,6 +10,51 @@ from Components.UsageConfig import preferredInstantRecordPath, preferredTimerPat
 from time import time, strftime, localtime, mktime
 from xml.sax.saxutils import unescape
 
+from Plugins.Extensions.ShareMyBox.ShareMyBoxRequets import ShareMyBoxApi as Request 
+from Plugins.Extensions.ShareMyBox.boxwrapper import variable_set, variable_get
+
+class ShareMyBoxTimerWorker(object):
+  
+  __recordtimer = None
+  
+  def __init__(self, recordtimer):
+    self.__recordtimer = recordtimer
+  
+  def run(self):
+   
+    if self.need_update() is False:
+      self.__updated()
+      return 'No external changes'
+
+    ext_timer = Request().RecordGet().GetList()
+    recordtimer = ShareMyBoxTimer(self.__recordtimer, ext_timer)
+
+    if recordtimer.worker() is True:
+      self.__updated()
+      return 'Updated'
+
+    self.__updated()
+    return 'Nothing updated'
+      
+  def __updated(self):
+    variable_set("autosync_last", int(time()))
+          
+  def need_update(self):
+
+    old = Request().RecordDetails().GetList()
+    if int(old['updated_on']) == 0:
+      return True
+
+    
+    last_update = int(variable_get("autosync_last", 0))
+    if last_update == 0:
+      return True
+    
+    if int(last_update - int(old['updated_on'])) <= 0:
+      return True
+    
+    return False
+
 class ShareMyBoxTimer(object):
   
   __recordtimer = None
