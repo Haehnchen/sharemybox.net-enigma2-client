@@ -1,0 +1,177 @@
+# ShareMyBox plugin german localization
+# Copyright (C) 2012 Daniel Espendiller
+# This file is distributed under the same license as the PACKAGE package.
+# Daniel Espendiller <daniel@espendiller.net>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Enigma2 ShareMyBox Plugin\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-04-02 20:10+0100\n"
+"PO-Revision-Date: 2012-04-02 20:11+0100\n"
+"Last-Translator: \n"
+"Language-Team: german <de@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
+"X-Poedit-SearchPath-0: ../src\n"
+
+#: ../src/plugin_main.py:70
+msgid "Edit channellists"
+msgstr "Kanelliste ändern"
+
+#: ../src/plugin_main.py:70
+msgid "Manage your Channellists"
+msgstr "Kanallisten verwalten"
+
+#: ../src/plugin_main.py:71
+msgid "Available channellists"
+msgstr "Verfügbare Kanallisten"
+
+#: ../src/plugin_main.py:71
+msgid "Your available Readonly Channellists"
+msgstr ""
+
+#: ../src/plugin_main.py:72
+msgid "Edit Files"
+msgstr ""
+
+#: ../src/plugin_main.py:72
+msgid "List your editable files"
+msgstr ""
+
+#: ../src/plugin_main.py:73
+msgid "Available Files"
+msgstr ""
+
+#: ../src/plugin_main.py:73
+msgid "List your files"
+msgstr ""
+
+#: ../src/plugin_main.py:74
+msgid "Friends"
+msgstr ""
+
+#: ../src/plugin_main.py:74
+msgid "Manager your friends"
+msgstr ""
+
+#: ../src/plugin_main.py:76
+msgid "Tools"
+msgstr ""
+
+#: ../src/plugin_main.py:76
+msgid "Tools and other Stuff"
+msgstr ""
+
+#: ../src/plugin_main.py:77
+msgid "Settings"
+msgstr ""
+
+#: ../src/plugin_main.py:77
+msgid "ShareMyBox Settings"
+msgstr ""
+
+#: ../src/plugin_main.py:80
+msgid "Add Account"
+msgstr ""
+
+#: ../src/plugin_main.py:80
+msgid "Marry box to account on mail / username"
+msgstr ""
+
+#: ../src/plugin_main.py:83
+msgid "Register"
+msgstr ""
+
+#: ../src/plugin_main.py:83
+msgid "Register your box to get access"
+msgstr ""
+
+#: ../src/plugin_main.py:86
+msgid "Reset"
+msgstr ""
+
+#: ../src/plugin_main.py:86
+msgid "Reset your keys"
+msgstr ""
+
+#: ../src/plugin_main.py:293
+msgid "Please enter Username or Mail of your Account"
+msgstr ""
+
+#: ../src/ScreenLib/Actions.py:100
+#: ../src/ScreenLib/Actions.py:103
+#: ../src/ScreenLib/DownloadChannelList.py:93
+#: ../src/ScreenLib/FileList.py:96
+#: ../src/ScreenLib/FileList.py:108
+#: ../src/ScreenLib/MasterBox.py:96
+msgid "Do you want delete this item?"
+msgstr ""
+
+#: ../src/ScreenLib/BaseScreens.py:128
+msgid "Cancel"
+msgstr ""
+
+#: ../src/ScreenLib/BaseScreens.py:129
+msgid "OK"
+msgstr ""
+
+#: ../src/ScreenLib/DownloadChannelList.py:87
+msgid "Please enter a name for the new channellist"
+msgstr ""
+
+#: ../src/ScreenLib/DownloadChannelList.py:90
+msgid "Download and overwrite current channellist"
+msgstr ""
+
+#: ../src/ScreenLib/DownloadChannelList.py:96
+msgid "Upload and overwrite this list?"
+msgstr ""
+
+#: ../src/ScreenLib/DownloadChannelList.py:142
+msgid "Restart to reload new channelllist?"
+msgstr ""
+
+#: ../src/ScreenLib/DownloadChannelList.py:183
+#: ../src/ScreenLib/FileList.py:231
+msgid "text"
+msgstr ""
+
+#: ../src/ScreenLib/FileList.py:93
+msgid "Please enter a name for prombt!"
+msgstr ""
+
+#: ../src/ScreenLib/FileList.py:102
+msgid "Do you want upload this item?"
+msgstr ""
+
+#: ../src/ScreenLib/FileList.py:105
+msgid "Do you want download this item?"
+msgstr ""
+
+#: ../src/ScreenLib/FileUpload.py:62
+msgid "File is too big"
+msgstr ""
+
+#: ../src/ScreenLib/MasterBox.py:93
+msgid "Please enter Username or Mail of friends account"
+msgstr ""
+
+#: ../src/ScreenLib/SmbSettings.py:46
+msgid "Settings saved"
+msgstr ""
+
+#: ../src/ScreenLib/SmbTools.py:89
+msgid ""
+"Update Client now:\n"
+"Do you want to download and install now?"
+msgstr ""
+
+#: ../src/ScreenLib/SmbTools.py:111
+msgid ""
+"Plugin successfully updated!\n"
+"Do you want to restart Enigma2 GUI now?"
+msgstr ""
+

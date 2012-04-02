@@ -27,6 +27,7 @@ import boxwrapper
 import ScreenLib
 import dreamclass
 from dreamclass import UserInfo, ACCESS
+from __init__ import _
 
 import os
 
@@ -66,23 +67,23 @@ class Smb_MainMenu(Screen):
     #print png
 
     api = []
-    api.append({'name': _("Edit your channellists"), 'description': 'Manage your Channellists', 'func': self.actions.MyChannels, 'icon': 'channellist', 'needaccess' : ACCESS.MARRIED})
-    api.append({'name': "List available channellists", 'description': 'Available Channellists', 'func': self.actions.AvailableChannellists, 'icon': 'channellist_dl', 'needaccess' : ACCESS.REGISTERED})
-    api.append({'name': "List Files", 'description': 'List your files', 'func': self.actions.AvailableFiles, 'icon': 'filesync', 'needaccess' : ACCESS.REGISTERED})
-    api.append({'name': "List available Files", 'description': 'List your files', 'func': self.actions.FileList, 'icon': 'filesync', 'needaccess' : ACCESS.REGISTERED})
-    api.append({'name': "Friends", 'description': 'List and add new friends', 'func': self.actions.Masters, 'icon': 'register', 'needaccess' : ACCESS.REGISTERED})
+    api.append({'name': _("Edit channellists"), 'description': _('Manage your Channellists'), 'func': self.actions.MyChannels, 'icon': 'channellist', 'needaccess' : ACCESS.MARRIED})
+    api.append({'name': _("Available channellists"), 'description': _('Your available Readonly Channellists'), 'func': self.actions.AvailableChannellists, 'icon': 'channellist_dl', 'needaccess' : ACCESS.REGISTERED})
+    api.append({'name': _("Edit Files"), 'description': _('List your editable files'), 'func': self.actions.AvailableFiles, 'icon': 'filesync', 'needaccess' : ACCESS.REGISTERED})
+    api.append({'name': _("Available Files"), 'description': _('List your files'), 'func': self.actions.FileList, 'icon': 'filesync', 'needaccess' : ACCESS.REGISTERED})
+    api.append({'name': _("Friends"), 'description': _('Manager your friends'), 'func': self.actions.Masters, 'icon': 'register', 'needaccess' : ACCESS.REGISTERED})
     
-    api.append({'name': "Tools", 'description': 'Tools and other Stuff', 'func': self.actions.Tools, 'icon': 'tools'})
-    api.append({'name': "Settings", 'description': 'ShareMyBox Settings', 'func': self.actions.Settings, 'icon': 'settings', 'needaccess' : ACCESS.REGISTERED})
+    api.append({'name': _("Tools"), 'description': _('Tools and other Stuff'), 'func': self.actions.Tools, 'icon': 'tools'})
+    api.append({'name': _("Settings"), 'description': _('ShareMyBox Settings'), 'func': self.actions.Settings, 'icon': 'settings', 'needaccess' : ACCESS.REGISTERED})
     
     if dreamclass.GetAccess(ACCESS.REGISTERED) is True and dreamclass.GetAccess(ACCESS.MARRIED) is False:
-      api.append({'name': "Add Account", 'description': 'Add (marry) account on mail / username to your box', 'func': self.actions.Marry, 'icon': 'mail', 'needaccess' : not dreamclass.GetAccess(ACCESS.MARRIED)})
+      api.append({'name': _("Add Account"), 'description': _('Marry box to account on mail / username'), 'func': self.actions.Marry, 'icon': 'mail', 'needaccess' : not dreamclass.GetAccess(ACCESS.MARRIED)})
 
     if dreamclass.GetAccess(ACCESS.REGISTERED) is False:
-      api.append({'name': "Register", 'description': 'Register your box to get access to ShareMyBox', 'func': self.actions.RegisterBox, 'icon': 'register'})
-      api.append({'name': "Debug", 'description': ' ', 'func': self.actions.DebugGetBoxkey, 'icon': 'register'})
+      api.append({'name': _("Register"), 'description': _('Register your box to get access'), 'func': self.actions.RegisterBox, 'icon': 'register'})
+      #api.append({'name': "Debug", 'description': ' ', 'func': self.actions.DebugGetBoxkey, 'icon': 'register'})
     else:
-      api.append({'name': "Reset", 'description': 'Reset your keys', 'func': self.actions.reset, 'icon': 'reset'})
+      api.append({'name': _("Reset"), 'description': _('Reset your keys'), 'func': self.actions.reset, 'icon': 'reset'})
 
     for x in api:
       png = LoadPixmap(dreamclass.GetIcon(x['icon']))
