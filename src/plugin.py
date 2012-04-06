@@ -17,7 +17,8 @@ def Plugins(path,**kwargs):
     plugin_path = path
     return [
         PluginDescriptor(name="ShareMyBox", description="Cloud my Box",where = PluginDescriptor.WHERE_PLUGINMENU, fnc=main),
-        PluginDescriptor(name="ShareMyBox", where = PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=main)
+        PluginDescriptor(name="ShareMyBox", where = PluginDescriptor.WHERE_EXTENSIONSMENU, fnc=main),
+        #PluginDescriptor(where = PluginDescriptor.WHERE_AUTOSTART, fnc = autostart)      
         ]
   
 """

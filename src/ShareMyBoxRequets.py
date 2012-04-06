@@ -55,6 +55,10 @@ class ShareMyBoxApi(object):
   def BoxMarry(self, search):
     self.__reg.AddVariable("search", search)
     return self.Call()
+  
+  def BoxRegistersafe(self, search):
+    self.__reg.AddVariable("search", search)
+    return self.Call()  
 
   def FriendAdd(self, search):
     self.__reg.AddVariable("search", search)

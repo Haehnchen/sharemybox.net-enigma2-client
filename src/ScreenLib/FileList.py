@@ -22,6 +22,8 @@ import FileUpload
     
 
 class MainMenu(Smb_BaseListScreen):
+  
+  title = 'Your Files'
  
   def build(self):
      
@@ -63,8 +65,9 @@ class MainMenu(Smb_BaseListScreen):
       if not os.path.exists(filename):
         icon = file_not_found
       else:
-        if os.path.getmtime(filename) < x['updated_on']:
-          icon = file_outdated 
+        pass
+        #if os.path.getmtime(filename) < x['updated_on']:
+        #  icon = file_outdated 
       
       list.append([
             str(x['fid']),

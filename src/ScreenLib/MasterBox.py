@@ -19,6 +19,8 @@ from Components.MultiContent import MultiContentEntryText, MultiContentEntryPixm
 from enigma import eListboxPythonMultiContent, gFont
 from Tools.LoadPixmap import LoadPixmap
 
+from Plugins.Extensions.ShareMyBox.__init__ import _
+
 import time
     
 class MainMenu(Smb_BaseListScreen):
@@ -37,12 +39,14 @@ class MainMenu(Smb_BaseListScreen):
     self["green"] = Label("Delete")
     self["yellow"] = Label("")
     self["blue"] = Label("")    
+    #self["padd_label"] = Label("")
+    
     
     self.actions['red'] = self.ActionHelperAdd
     self.actions['green'] = self.ActionHelperDelete
-    self.actions['yellow'] = lambda: self.action
-    self.actions['blue'] = lambda: self.action('delete')
-    self.context = ["ChannelSelectBaseActions","WizardActions", "DirectionActions","MenuActions","NumberActions","ColorActions"]
+    #self.actions['yellow'] = lambda: self.action
+    #self.actions['blue'] = lambda: self.action('delete')
+    self.context = ["WizardActions", "ColorActions"]
         
   def Changed(self):
     item = self["myMenu"].l.getCurrentSelection()
@@ -59,7 +63,7 @@ class MainMenu(Smb_BaseListScreen):
     icon_disable = boxwrapper.Icon('friend_disable')
     
     try:
-      api = boxwrapper.SendRequestAuth('MasterList').GetList()
+      api = boxwrapper.SendRequestAuth('FriendList').GetList()
     except Exception as e:
       self.ErrorException(e)
       return    
@@ -72,25 +76,26 @@ class MainMenu(Smb_BaseListScreen):
         icon = icon_disable
       
       list.append([
-            str(x['sid']),
+            str(x['uid']),
             MultiContentEntryText(pos=(60, 0), size=(320, 25), font=0, text=str(x['name'])),
             MultiContentEntryPixmapAlphaTest(pos=(5, 0), size=(50, 40), png = icon),
             x
-    ])        
+      ])        
       
     return list  
   
   def onMenuChanged(self, item):
     obj = item[-1]
     items = {
-          'Update': dreamclass.format_date(obj['updated_on']),
-          'Approved': str(obj['approved']),
+          #'Update': dreamclass.format_date(obj['updated_on']),
+          _('Description'): obj['description'],
+          _('Approved'): str(obj['approved']),
           }
 
     self.DescriptionToText(items)      
     
   def ActionHelperAdd(self):
-    self.session.openWithCallback(self.AddFriendCallback, InputBox, title=_("Please enter Username or Mail of friends account"), text=" " * 55, maxSize=55, type=Input.TEXT)    
+    self.session.openWithCallback(self.AddFriendCallback, InputBox, title=_("Please enter Username or Mail of friend account"), text=" " * 55, maxSize=55, type=Input.TEXT)    
         
   def ActionHelperDelete(self):
     self.session.openWithCallback(self.ActionDelete, MessageBox, _("Do you want delete this item?"), MessageBox.TYPE_YESNO)   
@@ -134,33 +139,4 @@ class MainMenu(Smb_BaseListScreen):
     except Exception as e:
       self.SetMessage("Error:" + str(e))      
     
-  def create(self, word):
-    if word is None: return
-    
-    word = str(word).strip()
-    if len(word) == 0: return
-
-    
-    try:
-      ret = Request().BouquetAdd(word).GetResponse()
-      self.SetMessage(ret)
-      self.rebuild()
-        
-    except Exception as e:
-      self.SetMessage("Error:" + str(e))  
-
-  def upload(self, result):
-    if result is False: return     
-
-    bid = self["myMenu"].l.getCurrentSelection()[0]
-    if bid is None: return None
-    
-    try:
-      path = boxwrapper.GetConfigDir()
-      bfile = path + "/bouquets.tv"
-      bouquets = dreamclass.BouqetFilesFind(bfile)
-      ret = Request().UploadBouquets(bid, bouquets).GetResponse()
-      self.SetMessage(ret)
-    except Exception as e:
-      self.SetMessage("Error:" + str(e))
 

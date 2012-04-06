@@ -12,16 +12,14 @@ from enigma import eListboxPythonMultiContent, gFont
 from Components.MenuList import MenuList
 from enigma import eConsoleAppContainer
 from Tools.LoadPixmap import LoadPixmap
-import Plugins.Extensions.ShareMyBox.ShareMyBoxTimer
+#import Plugins.Extensions.ShareMyBox.ShareMyBoxTimer
 from Plugins.Extensions.ShareMyBox.ShareMyBoxRequets import ShareMyBoxApi as Request 
-from Plugins.Extensions.ShareMyBox.ShareMyBoxTimer import ShareMyBoxTimerWorker
+#from Plugins.Extensions.ShareMyBox.ShareMyBoxTimer import ShareMyBoxTimerWorker
 from Tools.Notifications import AddPopup
 from ServiceReference import ServiceReference
 
-from RecordTimer import RecordTimerEntry, RecordTimer, AFTEREVENT, parseEvent
+#from RecordTimer import RecordTimerEntry, RecordTimer, AFTEREVENT, parseEvent
 
-#from AutoTimerConfiguration import parseConfig, buildConfig
-NOTIFICATIONID = 'Test'
 
 import Screens.Ipkg 
 import re
@@ -49,7 +47,7 @@ class Smb_Tools_MainMenu(Smb_BaseScreen):
     
     api = []
     api.append({'name': "Update Client", 'description': 'Upload ShareMyBox Client', 'func': self.msgUpdate, 'icon': 'update'})
-    api.append({'name': "Sync Records", 'description': 'Download managed Records', 'func': self.records, 'icon': 'records'})
+    #api.append({'name': "Sync Records", 'description': 'Download managed Records', 'func': self.records, 'icon': 'records'})
 
     for x in api:
       png = LoadPixmap(dreamclass.GetIcon(x['icon']))
@@ -92,8 +90,9 @@ class Smb_Tools_MainMenu(Smb_BaseScreen):
     return dreamclass.GetAccess(item) == True      
     
   def records(self, item = None):
-    recordtimer = ShareMyBoxTimerWorker(self.session.nav.RecordTimer).run()
-    self.SetMessage(str(recordtimer))
+    pass
+    #recordtimer = ShareMyBoxTimerWorker(self.session.nav.RecordTimer).run()
+    #self.SetMessage(str(recordtimer))
       
   def EventStartUpdate(self, result = False):
     if result is False: return

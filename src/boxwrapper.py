@@ -19,13 +19,16 @@ import socket, fcntl, struct
 from Tools.Directories import resolveFilename, SCOPE_SKIN_IMAGE, SCOPE_CURRENT_PLUGIN
 from Tools.LoadPixmap import LoadPixmap
 
-config.plugins.ShareIt = ConfigSubsection()
-config.plugins.ShareIt.Key = ConfigText()
-config.plugins.ShareIt.privatekey = ConfigText()
+#config.plugins.ShareIt = ConfigSubsection()
+#config.plugins.ShareIt.Key = ConfigText()
+#config.plugins.ShareIt.privatekey = ConfigText()
 
 config.plugins.ShareMyBox = ConfigSubsection()
-config.plugins.ShareMyBox.autosync_timers = ConfigYesNo()
-config.plugins.ShareMyBox.autosync_last = ConfigInteger(0)
+#config.plugins.ShareMyBox.autosync_timers = ConfigYesNo()
+#config.plugins.ShareMyBox.autosync_last = ConfigInteger(0)
+config.plugins.ShareMyBox.privatekey = ConfigText()
+
+#config.plugins.ShareMyBox.autosync_last.setValue(value)
 
 def GetConfigDir():
   return os.path.dirname(configfile.CONFIG_FILE)

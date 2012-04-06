@@ -4,6 +4,9 @@ from Components.MultiContent import MultiContentEntryText, MultiContentEntryPixm
 from enigma import eListboxPythonMultiContent, gFont
 
 class Smb_FileAvailable_MainMenu(FileList.MainMenu):
+  
+  title = 'Friends Files'  
+  
   def buildlist(self):
     
     list = []

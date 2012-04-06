@@ -80,7 +80,6 @@ class Smb_BaseScreen(Screen):
   def ok(self):
     pass
   
-
   def rebuild(self):
     self["myMenu"].setList(self.buildlist())
       
@@ -147,6 +146,7 @@ class Smb_BaseEditScreen(ConfigListScreen, Screen):
       mylist = self.buildlist()
       self["config"].list = mylist;
     except Exception as e:
+      print str(e)
       self.close(str(e))
       return      
 
@@ -206,9 +206,9 @@ class Smb_BaseListScreen(Smb_BaseScreen):
             <ePixmap name="pblue" position="400,392" size="120,30" zPosition="0" pixmap="skin_default/buttons/blue.png" transparent="1" alphatest="on"/>
             
             <ePixmap name="padd" position="530,397" size="120,30" zPosition="0" pixmap="skin_default/buttons/key_0.png" transparent="1" alphatest="on"/>
-            <eLabel text="Add" position="570,397" size="50,25" font="Regular;19" transparent="1" />
+            <eLabel name="padd_label" text="Add" position="570,397" size="50,25" font="Regular;19" transparent="1" />
             
-            <widget name="Statusbar" position="10,433" size="610,20" font="Regular;12"/>
+            <widget name="Statusbar" position="10,433" size="610,20" font="Regular;14"/>
             
             <eLabel backgroundColor="#808080" position="391,0" size="1,390" />            
             <eLabel backgroundColor="#808080" position="0,390" size="630,1" />

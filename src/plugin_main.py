@@ -7,7 +7,7 @@ from Plugins.Plugin import PluginDescriptor
 from Components.MenuList import MenuList
 
 from ShareMyBoxRequets import ShareMyBoxApi as Request 
-
+from boxwrapper import variable_set, variable_get
 
 from Components.config import config, ConfigSubsection, configfile, ConfigPassword, ConfigText
 from Screens.InputBox import InputBox
@@ -49,8 +49,9 @@ class Smb_MainMenu(Screen):
 
   def buildlist(self):
   
-    if config.plugins.ShareIt.privatekey.value:
-      UserInfo().SetPrivateKey(config.plugins.ShareIt.privatekey.value)
+    private_key = variable_get('privatekey')
+    if private_key is not None:
+      UserInfo().SetPrivateKey(private_key)
       
     try:
       box = Request().BoxDetails().GetList()
@@ -67,10 +68,16 @@ class Smb_MainMenu(Screen):
     #print png
 
     api = []
-    api.append({'name': _("Edit channellists"), 'description': _('Manage your Channellists'), 'func': self.actions.MyChannels, 'icon': 'channellist', 'needaccess' : ACCESS.MARRIED})
-    api.append({'name': _("Available channellists"), 'description': _('Your available Readonly Channellists'), 'func': self.actions.AvailableChannellists, 'icon': 'channellist_dl', 'needaccess' : ACCESS.REGISTERED})
-    api.append({'name': _("Edit Files"), 'description': _('List your editable files'), 'func': self.actions.AvailableFiles, 'icon': 'filesync', 'needaccess' : ACCESS.REGISTERED})
-    api.append({'name': _("Available Files"), 'description': _('List your files'), 'func': self.actions.FileList, 'icon': 'filesync', 'needaccess' : ACCESS.REGISTERED})
+    
+    if dreamclass.GetAccess(ACCESS.REGISTERED) is False:
+      api.append({'name': _("Register"), 'description': _('Register your box to get access'), 'func': self.actions.RegisterBox, 'icon': 'register'})
+      api.append({'name': _("Register safe"), 'description': _('Register your box with account name'), 'func': self.actions.RegisterBoxSafe, 'icon': 'registersafe'})
+      #api.append({'name': "Debug", 'description': ' ', 'func': self.actions.DebugGetBoxkey, 'icon': 'register'})    
+    
+    api.append({'name': _("Your channellists"), 'description': _('Manage your Channellists'), 'func': self.actions.MyChannels, 'icon': 'channellist', 'needaccess' : ACCESS.MARRIED})
+    api.append({'name': _("Friends channellists"), 'description': _('Available readonly channellists from friends'), 'func': self.actions.AvailableChannellists, 'icon': 'channellist_dl', 'needaccess' : ACCESS.REGISTERED})
+    api.append({'name': _("Your Files"), 'description': _('Manage your files'), 'func': self.actions.FileList, 'icon': 'filesync', 'needaccess' : ACCESS.MARRIED})
+    api.append({'name': _("Friends Files"), 'description': _('Accessable files from friends'), 'func': self.actions.AvailableFiles, 'icon': 'filesync', 'needaccess' : ACCESS.REGISTERED})
     api.append({'name': _("Friends"), 'description': _('Manager your friends'), 'func': self.actions.Masters, 'icon': 'register', 'needaccess' : ACCESS.REGISTERED})
     
     api.append({'name': _("Tools"), 'description': _('Tools and other Stuff'), 'func': self.actions.Tools, 'icon': 'tools'})
@@ -79,10 +86,7 @@ class Smb_MainMenu(Screen):
     if dreamclass.GetAccess(ACCESS.REGISTERED) is True and dreamclass.GetAccess(ACCESS.MARRIED) is False:
       api.append({'name': _("Add Account"), 'description': _('Marry box to account on mail / username'), 'func': self.actions.Marry, 'icon': 'mail', 'needaccess' : not dreamclass.GetAccess(ACCESS.MARRIED)})
 
-    if dreamclass.GetAccess(ACCESS.REGISTERED) is False:
-      api.append({'name': _("Register"), 'description': _('Register your box to get access'), 'func': self.actions.RegisterBox, 'icon': 'register'})
-      #api.append({'name': "Debug", 'description': ' ', 'func': self.actions.DebugGetBoxkey, 'icon': 'register'})
-    else:
+    if dreamclass.GetAccess(ACCESS.REGISTERED) is True:
       api.append({'name': _("Reset"), 'description': _('Reset your keys'), 'func': self.actions.reset, 'icon': 'reset'})
 
     for x in api:
@@ -186,7 +190,26 @@ class Smb_MainMenu(Screen):
       self.SetMessage(ret)
       
     except Exception as e:
-      self.SetMessage(str(e))        
+      self.SetMessage(str(e))     
+      
+  def registered(self, keys):
+      privatekey = str(keys['privatekey'])
+      boxkey = str(keys['boxkey'])
+      variable_set('privatekey', privatekey)
+      self.myMsg(_('Box is registered. You have access now!') + '\r\n\r\nprivatekey: %s\r\nboxkey: %s' % (privatekey, boxkey))
+      self.rebuild()
+      self.SetMessage('Register ok')               
+          
+  def CallbackRegisterSafe(self, word):
+    if word is None: return
+    
+    try:
+      word = str(word).strip()
+      if len(word) == 0: return
+      self.registered(Request().BoxRegistersafe(word).GetList())
+      
+    except Exception as e:
+      self.SetMessage(str(e))           
  
   def AddMasterboxCallback(self, word):
     if word is None: return
@@ -221,9 +244,7 @@ class Smb_MainMenu(Screen):
   class actions(object):
     @staticmethod
     def reset(YourScreen, item):
-      config.plugins.ShareIt.privatekey.value = ''
-      config.plugins.ShareIt.save()
-      configfile.save()
+      variable_set('privatekey', '')
       UserInfo().Reset()        
       YourScreen.rebuild()
       YourScreen.SetMessage('Reset')
@@ -233,17 +254,13 @@ class Smb_MainMenu(Screen):
       reload(ScreenLib.SmbSettings)
       YourScreen.session.openWithCallback(YourScreen.MsgCallback, ScreenLib.SmbSettings.Smb_Settings)  
      
+    @staticmethod
+    def RegisterBoxSafe(YourScreen, item):
+      YourScreen.session.openWithCallback(YourScreen.CallbackRegisterSafe, InputBox, title=_("Please enter Username or Mail of married account"), text=" " * 55, maxSize=55, type=Input.TEXT)
+     
     @staticmethod      
     def RegisterBox(YourScreen, item):
-      key = YourScreen.SendRequest('BoxRegister').GetList()
-      privatekey = str(key['privatekey'])
-      boxkey = str(key['boxkey'])
-      config.plugins.ShareIt.privatekey.value = privatekey
-      config.plugins.ShareIt.save()
-      configfile.save()
-      YourScreen.myMsg('privatekey: %s\r\nboxkey: %s' % (privatekey, boxkey))
-      YourScreen.rebuild()
-      YourScreen.SetMessage('Register ok')      
+      YourScreen.registered(YourScreen.SendRequest('BoxRegister').GetList())
 
     @staticmethod      
     def MyChannels(YourScreen, item):
@@ -268,8 +285,8 @@ class Smb_MainMenu(Screen):
     @staticmethod      
     def DebugGetBoxkey(YourScreen, item):
       msg = 'boxkey:' + str(dreamclass.getBoxKey())
-      if config.plugins.ShareIt.privatekey.value is not None: 
-        msg = msg + '\nprivatekey:' + str(config.plugins.ShareIt.privatekey.value) 
+      if variable_get('privatekey') is not None: 
+        msg = msg + '\nprivatekey:' + str(variable_get('privatekey')) 
       
       YourScreen.myMsg(msg)
 

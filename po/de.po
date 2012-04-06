@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Enigma2 ShareMyBox Plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-02 20:10+0100\n"
-"PO-Revision-Date: 2012-04-02 20:11+0100\n"
+"POT-Creation-Date: 2012-04-06 16:13+0100\n"
+"PO-Revision-Date: 2012-04-06 16:19+0100\n"
 "Last-Translator: \n"
 "Language-Team: german <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -17,161 +17,193 @@ msgstr ""
 "Language: \n"
 "X-Poedit-SearchPath-0: ../src\n"
 
-#: ../src/plugin_main.py:70
-msgid "Edit channellists"
+#: ../src/plugin_main.py:73
+msgid "Register"
+msgstr "Registrieren"
+
+#: ../src/plugin_main.py:73
+msgid "Register your box to get access"
+msgstr "Registriere Reciever um Zugriff zu erhalten"
+
+#: ../src/plugin_main.py:74
+msgid "Register safe"
+msgstr "Register Safe"
+
+#: ../src/plugin_main.py:74
+msgid "Register your box with account name"
+msgstr "Registriere Receiver mit Benutzername"
+
+#: ../src/plugin_main.py:77
+#, fuzzy
+msgid "Your channellists"
 msgstr "Kanelliste ändern"
 
-#: ../src/plugin_main.py:70
+#: ../src/plugin_main.py:77
 msgid "Manage your Channellists"
 msgstr "Kanallisten verwalten"
 
-#: ../src/plugin_main.py:71
-msgid "Available channellists"
+#: ../src/plugin_main.py:78
+#, fuzzy
+msgid "Friends channellists"
+msgstr "Kanelliste ändern"
+
+#: ../src/plugin_main.py:78
+#, fuzzy
+msgid "Available readonly channellists from friends"
 msgstr "Verfügbare Kanallisten"
 
-#: ../src/plugin_main.py:71
-msgid "Your available Readonly Channellists"
-msgstr ""
+#: ../src/plugin_main.py:79
+msgid "Your Files"
+msgstr "Deine Dateien"
 
-#: ../src/plugin_main.py:72
-msgid "Edit Files"
-msgstr ""
+#: ../src/plugin_main.py:79
+#, fuzzy
+msgid "Manage your files"
+msgstr "Kanallisten verwalten"
 
-#: ../src/plugin_main.py:72
-msgid "List your editable files"
-msgstr ""
+#: ../src/plugin_main.py:80
+msgid "Friends Files"
+msgstr "Dateien von Freunden"
 
-#: ../src/plugin_main.py:73
-msgid "Available Files"
-msgstr ""
+#: ../src/plugin_main.py:80
+msgid "Accessable files from friends"
+msgstr "Verfügbare Dateien von Freunden"
 
-#: ../src/plugin_main.py:73
-msgid "List your files"
-msgstr ""
-
-#: ../src/plugin_main.py:74
+#: ../src/plugin_main.py:81
 msgid "Friends"
-msgstr ""
+msgstr "Freunde"
 
-#: ../src/plugin_main.py:74
+#: ../src/plugin_main.py:81
 msgid "Manager your friends"
-msgstr ""
+msgstr "Verwalte deine Freunde"
 
-#: ../src/plugin_main.py:76
+#: ../src/plugin_main.py:83
 msgid "Tools"
 msgstr ""
 
-#: ../src/plugin_main.py:76
+#: ../src/plugin_main.py:83
 msgid "Tools and other Stuff"
-msgstr ""
+msgstr "Tool und sonstiges"
 
-#: ../src/plugin_main.py:77
+#: ../src/plugin_main.py:84
 msgid "Settings"
-msgstr ""
+msgstr "EInstellungen"
 
-#: ../src/plugin_main.py:77
+#: ../src/plugin_main.py:84
 msgid "ShareMyBox Settings"
-msgstr ""
+msgstr "ShareMyBox Einstellungen"
 
-#: ../src/plugin_main.py:80
+#: ../src/plugin_main.py:87
 msgid "Add Account"
-msgstr ""
+msgstr "Benutzer hinzufügen"
 
-#: ../src/plugin_main.py:80
+#: ../src/plugin_main.py:87
 msgid "Marry box to account on mail / username"
-msgstr ""
+msgstr "Marry Receiver mit E-Mail oder Benutzername"
 
-#: ../src/plugin_main.py:83
-msgid "Register"
-msgstr ""
-
-#: ../src/plugin_main.py:83
-msgid "Register your box to get access"
-msgstr ""
-
-#: ../src/plugin_main.py:86
+#: ../src/plugin_main.py:90
 msgid "Reset"
 msgstr ""
 
-#: ../src/plugin_main.py:86
+#: ../src/plugin_main.py:90
 msgid "Reset your keys"
 msgstr ""
 
-#: ../src/plugin_main.py:293
+#: ../src/plugin_main.py:199
+msgid "Box is registered. You have access now!"
+msgstr "Box ist registriert. Du hast jetzt Zugriff!"
+
+#: ../src/plugin_main.py:259
+msgid "Please enter Username or Mail of married account"
+msgstr "Bitte Benutzername oder E-Mail-Konto eingeben"
+
+#: ../src/plugin_main.py:310
 msgid "Please enter Username or Mail of your Account"
-msgstr ""
+msgstr "Bitte Benutzername oder E-Mail-Konto eingeben"
 
 #: ../src/ScreenLib/Actions.py:100
 #: ../src/ScreenLib/Actions.py:103
 #: ../src/ScreenLib/DownloadChannelList.py:93
-#: ../src/ScreenLib/FileList.py:96
-#: ../src/ScreenLib/FileList.py:108
-#: ../src/ScreenLib/MasterBox.py:96
+#: ../src/ScreenLib/FileList.py:99
+#: ../src/ScreenLib/FileList.py:111
+#: ../src/ScreenLib/MasterBox.py:101
 msgid "Do you want delete this item?"
-msgstr ""
+msgstr "Soll diese Element wirklich gelöscht werden?"
 
-#: ../src/ScreenLib/BaseScreens.py:128
+#: ../src/ScreenLib/BaseScreens.py:127
 msgid "Cancel"
 msgstr ""
 
-#: ../src/ScreenLib/BaseScreens.py:129
+#: ../src/ScreenLib/BaseScreens.py:128
 msgid "OK"
 msgstr ""
 
 #: ../src/ScreenLib/DownloadChannelList.py:87
 msgid "Please enter a name for the new channellist"
-msgstr ""
+msgstr "Bitte Namen für die neue Kanalliste eingeben"
 
 #: ../src/ScreenLib/DownloadChannelList.py:90
-msgid "Download and overwrite current channellist"
-msgstr ""
+msgid "Download and overwrite current channellist?"
+msgstr "Kanallisten herunterladen und aktuelle überschreiben?"
 
 #: ../src/ScreenLib/DownloadChannelList.py:96
 msgid "Upload and overwrite this list?"
-msgstr ""
+msgstr "Herunterladen und überschreiben?"
 
 #: ../src/ScreenLib/DownloadChannelList.py:142
 msgid "Restart to reload new channelllist?"
-msgstr ""
+msgstr "Neustarten um Kanalliste zu laden?"
 
 #: ../src/ScreenLib/DownloadChannelList.py:183
-#: ../src/ScreenLib/FileList.py:231
+#: ../src/ScreenLib/FileList.py:234
 msgid "text"
 msgstr ""
 
-#: ../src/ScreenLib/FileList.py:93
+#: ../src/ScreenLib/FileList.py:96
 msgid "Please enter a name for prombt!"
 msgstr ""
 
-#: ../src/ScreenLib/FileList.py:102
-msgid "Do you want upload this item?"
-msgstr ""
-
 #: ../src/ScreenLib/FileList.py:105
+msgid "Do you want upload this item?"
+msgstr "Jetzt hochladen?"
+
+#: ../src/ScreenLib/FileList.py:108
 msgid "Do you want download this item?"
-msgstr ""
+msgstr "Wirklich herunterladen?"
 
 #: ../src/ScreenLib/FileUpload.py:62
 msgid "File is too big"
-msgstr ""
+msgstr "Datei ist zu groß"
 
-#: ../src/ScreenLib/MasterBox.py:93
-msgid "Please enter Username or Mail of friends account"
-msgstr ""
+#: ../src/ScreenLib/MasterBox.py:91
+msgid "Description"
+msgstr "Beschreibung"
+
+#: ../src/ScreenLib/MasterBox.py:92
+msgid "Approved"
+msgstr "Bestätigt"
+
+#: ../src/ScreenLib/MasterBox.py:98
+msgid "Please enter Username or Mail of friend account"
+msgstr "Bitte Benutzername oder E-Mail-Konto des Freundes eingeben."
 
 #: ../src/ScreenLib/SmbSettings.py:46
 msgid "Settings saved"
-msgstr ""
+msgstr "Einstellungen gespeichert"
 
-#: ../src/ScreenLib/SmbTools.py:89
+#: ../src/ScreenLib/SmbTools.py:87
 msgid ""
 "Update Client now:\n"
 "Do you want to download and install now?"
 msgstr ""
+"Update:\n"
+"Jetzt herunterladen inst installieren?"
 
-#: ../src/ScreenLib/SmbTools.py:111
+#: ../src/ScreenLib/SmbTools.py:110
 msgid ""
 "Plugin successfully updated!\n"
 "Do you want to restart Enigma2 GUI now?"
 msgstr ""
+"Das Plugin wurde erfolgreich aktualisiert!\n"
+"Wollen Sie Enigma2 GUI jetzt neu starten?"
 
