@@ -19,11 +19,11 @@ from enigma import eListboxPythonMultiContent, gFont
 
 
 import FileUpload
-    
+from Plugins.Extensions.ShareMyBox.__init__ import _    
 
 class MainMenu(Smb_BaseListScreen):
   
-  title = 'Your Files'
+  title = _('Your Files')
  
   def build(self):
      
@@ -32,7 +32,7 @@ class MainMenu(Smb_BaseListScreen):
     self["myMenu"].l.setFont(1, gFont("Regular", 14))
     self["myMenu"].l.setItemHeight(40)   
     
-    self["Description"] = Label("/var")
+    self["Description"] = Label("")
        
     self["red"] = Label("Download")
     self["green"] = Label("Edit")
@@ -92,13 +92,12 @@ class MainMenu(Smb_BaseListScreen):
   
   
   def action(self, actiontype):
-    if actiontype == "create":
-      self.session.openWithCallback(self.create, InputBox, title=_("Please enter a name for prombt!"), text=" " * 20, maxSize=20, type=Input.TEXT)            
-        
+
     if actiontype == "delete":
       self.session.openWithCallback(self.delete, MessageBox, _("Do you want delete this item?"), MessageBox.TYPE_YESNO)   
       
     if actiontype == "add":
+      reload(FileUpload)
       self.session.openWithCallback(self.add, FileUpload.MainMenu, "test")           
 
     if actiontype == "edit":
@@ -108,7 +107,7 @@ class MainMenu(Smb_BaseListScreen):
       self.session.openWithCallback(self.download, MessageBox, _("Do you want download this item?"), MessageBox.TYPE_YESNO)        
       
     if actiontype == "upload":
-      self.session.openWithCallback(self.upload, MessageBox, _("Do you want delete this item?"), MessageBox.TYPE_YESNO)        
+      self.session.openWithCallback(self.upload, MessageBox, _("Do you want upload this item?"), MessageBox.TYPE_YESNO)        
 
   def rebuild(self):
     self["myMenu"].setList(self.buildlist())

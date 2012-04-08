@@ -25,6 +25,8 @@ import time
     
 class MainMenu(Smb_BaseListScreen):
 
+  title = _('Friends')
+
   def build(self):
      
     self["myMenu"] = MenuList(self.buildlist(), False, eListboxPythonMultiContent)

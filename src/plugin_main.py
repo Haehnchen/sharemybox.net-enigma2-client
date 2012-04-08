@@ -71,7 +71,7 @@ class Smb_MainMenu(Screen):
     
     if dreamclass.GetAccess(ACCESS.REGISTERED) is False:
       api.append({'name': _("Register"), 'description': _('Register your box to get access'), 'func': self.actions.RegisterBox, 'icon': 'register'})
-      api.append({'name': _("Register safe"), 'description': _('Register your box with account name'), 'func': self.actions.RegisterBoxSafe, 'icon': 'registersafe'})
+      api.append({'name': _("Register safe"), 'description': _('Register your already married box with account name'), 'func': self.actions.RegisterBoxSafe, 'icon': 'registersafe'})
       #api.append({'name': "Debug", 'description': ' ', 'func': self.actions.DebugGetBoxkey, 'icon': 'register'})    
     
     api.append({'name': _("Your channellists"), 'description': _('Manage your Channellists'), 'func': self.actions.MyChannels, 'icon': 'channellist', 'needaccess' : ACCESS.MARRIED})

@@ -30,8 +30,11 @@ config.plugins.ShareMyBox.privatekey = ConfigText()
 
 #config.plugins.ShareMyBox.autosync_last.setValue(value)
 
-def GetConfigDir():
-  return os.path.dirname(configfile.CONFIG_FILE)
+def GetConfigDir(file = None):
+  if file is None:
+    return os.path.dirname(configfile.CONFIG_FILE)
+  
+  return os.path.dirname(configfile.CONFIG_FILE) + '/' + file
  
 def getHwAddr(ifname):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

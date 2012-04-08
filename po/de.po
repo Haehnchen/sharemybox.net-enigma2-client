@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Enigma2 ShareMyBox Plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-06 16:13+0100\n"
-"PO-Revision-Date: 2012-04-06 16:19+0100\n"
+"POT-Creation-Date: 2012-04-08 14:45+0100\n"
+"PO-Revision-Date: 2012-04-08 14:47+0100\n"
 "Last-Translator: \n"
 "Language-Team: german <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -30,38 +30,36 @@ msgid "Register safe"
 msgstr "Register Safe"
 
 #: ../src/plugin_main.py:74
-msgid "Register your box with account name"
+msgid "Register your already married box with account name"
 msgstr "Registriere Receiver mit Benutzername"
 
 #: ../src/plugin_main.py:77
-#, fuzzy
 msgid "Your channellists"
-msgstr "Kanelliste ändern"
+msgstr "Deine Kanallisten"
 
 #: ../src/plugin_main.py:77
 msgid "Manage your Channellists"
 msgstr "Kanallisten verwalten"
 
 #: ../src/plugin_main.py:78
-#, fuzzy
 msgid "Friends channellists"
-msgstr "Kanelliste ändern"
+msgstr "Kanallisten von Freunden"
 
 #: ../src/plugin_main.py:78
-#, fuzzy
 msgid "Available readonly channellists from friends"
-msgstr "Verfügbare Kanallisten"
+msgstr "Verfügbare Kanallisten von Freunden"
 
 #: ../src/plugin_main.py:79
+#: ../src/ScreenLib/FileList.py:26
 msgid "Your Files"
 msgstr "Deine Dateien"
 
 #: ../src/plugin_main.py:79
-#, fuzzy
 msgid "Manage your files"
-msgstr "Kanallisten verwalten"
+msgstr "Verwalte deine Dateien"
 
 #: ../src/plugin_main.py:80
+#: ../src/ScreenLib/FileAvailable.py:9
 msgid "Friends Files"
 msgstr "Dateien von Freunden"
 
@@ -70,6 +68,7 @@ msgid "Accessable files from friends"
 msgstr "Verfügbare Dateien von Freunden"
 
 #: ../src/plugin_main.py:81
+#: ../src/ScreenLib/MasterBox.py:28
 msgid "Friends"
 msgstr "Freunde"
 
@@ -87,7 +86,7 @@ msgstr "Tool und sonstiges"
 
 #: ../src/plugin_main.py:84
 msgid "Settings"
-msgstr "EInstellungen"
+msgstr "Einstellungen"
 
 #: ../src/plugin_main.py:84
 msgid "ShareMyBox Settings"
@@ -107,7 +106,7 @@ msgstr ""
 
 #: ../src/plugin_main.py:90
 msgid "Reset your keys"
-msgstr ""
+msgstr "Keys zurücksetzen"
 
 #: ../src/plugin_main.py:199
 msgid "Box is registered. You have access now!"
@@ -123,10 +122,9 @@ msgstr "Bitte Benutzername oder E-Mail-Konto eingeben"
 
 #: ../src/ScreenLib/Actions.py:100
 #: ../src/ScreenLib/Actions.py:103
-#: ../src/ScreenLib/DownloadChannelList.py:93
-#: ../src/ScreenLib/FileList.py:99
-#: ../src/ScreenLib/FileList.py:111
-#: ../src/ScreenLib/MasterBox.py:101
+#: ../src/ScreenLib/DownloadChannelList.py:94
+#: ../src/ScreenLib/FileList.py:97
+#: ../src/ScreenLib/MasterBox.py:103
 msgid "Do you want delete this item?"
 msgstr "Soll diese Element wirklich gelöscht werden?"
 
@@ -138,52 +136,63 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: ../src/ScreenLib/DownloadChannelList.py:87
+#: ../src/ScreenLib/ChannellistAvailable.py:49
+#: ../src/ScreenLib/FileAvailable.py:42
+msgid "no access"
+msgstr ""
+
+#: ../src/ScreenLib/DownloadChannelList.py:24
+msgid "Your Channellists"
+msgstr "Deine Kanallisten"
+
+#: ../src/ScreenLib/DownloadChannelList.py:88
 msgid "Please enter a name for the new channellist"
 msgstr "Bitte Namen für die neue Kanalliste eingeben"
 
-#: ../src/ScreenLib/DownloadChannelList.py:90
+#: ../src/ScreenLib/DownloadChannelList.py:91
 msgid "Download and overwrite current channellist?"
 msgstr "Kanallisten herunterladen und aktuelle überschreiben?"
 
-#: ../src/ScreenLib/DownloadChannelList.py:96
+#: ../src/ScreenLib/DownloadChannelList.py:97
 msgid "Upload and overwrite this list?"
 msgstr "Herunterladen und überschreiben?"
 
-#: ../src/ScreenLib/DownloadChannelList.py:142
+#: ../src/ScreenLib/DownloadChannelList.py:143
 msgid "Restart to reload new channelllist?"
 msgstr "Neustarten um Kanalliste zu laden?"
 
-#: ../src/ScreenLib/DownloadChannelList.py:183
-#: ../src/ScreenLib/FileList.py:234
+#: ../src/ScreenLib/DownloadChannelList.py:184
+#: ../src/ScreenLib/FileList.py:233
 msgid "text"
 msgstr ""
 
-#: ../src/ScreenLib/FileList.py:96
-msgid "Please enter a name for prombt!"
-msgstr ""
-
-#: ../src/ScreenLib/FileList.py:105
+#: ../src/ScreenLib/FileList.py:104
+#: ../src/ScreenLib/FileList.py:110
 msgid "Do you want upload this item?"
 msgstr "Jetzt hochladen?"
 
-#: ../src/ScreenLib/FileList.py:108
+#: ../src/ScreenLib/FileList.py:107
 msgid "Do you want download this item?"
 msgstr "Wirklich herunterladen?"
 
-#: ../src/ScreenLib/FileUpload.py:62
+#: ../src/ScreenLib/FileUpload.py:13
+#: ../src/ScreenLib/FileUpload.py:51
+msgid "File Upload"
+msgstr "Datei Upload"
+
+#: ../src/ScreenLib/FileUpload.py:69
 msgid "File is too big"
 msgstr "Datei ist zu groß"
 
-#: ../src/ScreenLib/MasterBox.py:91
+#: ../src/ScreenLib/MasterBox.py:93
 msgid "Description"
 msgstr "Beschreibung"
 
-#: ../src/ScreenLib/MasterBox.py:92
+#: ../src/ScreenLib/MasterBox.py:94
 msgid "Approved"
 msgstr "Bestätigt"
 
-#: ../src/ScreenLib/MasterBox.py:98
+#: ../src/ScreenLib/MasterBox.py:100
 msgid "Please enter Username or Mail of friend account"
 msgstr "Bitte Benutzername oder E-Mail-Konto des Freundes eingeben."
 

@@ -17,10 +17,11 @@ from Screens.InputBox import InputBox
 from Components.MultiContent import MultiContentEntryText, MultiContentEntryPixmapAlphaTest
 from enigma import eListboxPythonMultiContent, gFont
 
+from Plugins.Extensions.ShareMyBox.__init__ import _
     
 class Smb_Channellist_MainMenu(Smb_BaseListScreen):
   backToMainMenu = True
-  title = "Your Channellists"
+  title = _("Your Channellists")
   
   def build(self):
      
@@ -33,7 +34,7 @@ class Smb_Channellist_MainMenu(Smb_BaseListScreen):
     
     #self["myMenu"].onSelectionChanged = [self.Changed]
     
-    self["Description"] = Label("/var")    
+    self["Description"] = Label("")    
     
     self["red"] = Label("Download")
     self["green"] = Label("Upload")
@@ -135,7 +136,7 @@ class Smb_Channellist_MainMenu(Smb_BaseListScreen):
     try:
       if result is False or self.Id() is None: return
         
-      zip = boxwrapper.GetConfigDir() + "/bouquets.zip"      
+      zip = boxwrapper.GetConfigDir('bouquets.zip')      
       Request().ChannellistDownload(self.Id(), zip)
       dreamclass.Uncompress(zip, True)
               
