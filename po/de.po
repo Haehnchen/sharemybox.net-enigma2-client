@@ -150,12 +150,12 @@ msgid "Please enter a name for the new channellist"
 msgstr "Bitte Namen für die neue Kanalliste eingeben"
 
 #: ../src/ScreenLib/DownloadChannelList.py:91
-msgid "Download and overwrite current channellist?"
-msgstr "Kanallisten herunterladen und aktuelle überschreiben?"
+msgid "Download and overwrite current local channellist?"
+msgstr "Kanallisten herunterladen und aktuelle lokale überschreiben?"
 
 #: ../src/ScreenLib/DownloadChannelList.py:97
 msgid "Upload and overwrite this list?"
-msgstr "Herunterladen und überschreiben?"
+msgstr "Aktuelle Kanalliste hochladen?"
 
 #: ../src/ScreenLib/DownloadChannelList.py:143
 msgid "Restart to reload new channelllist?"

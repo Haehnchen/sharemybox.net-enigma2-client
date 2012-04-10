@@ -213,7 +213,11 @@ class ShareMyBoxApiRequest(object):
   debug = 1 
 
   def __init__(self, request = {}, auth = 0):
-    self.__boxid = "%x" % get_mac()
+    mac = get_mac()
+    if mac is None:
+      raise Exception("Can not get your box mac")
+
+    self.__boxid = "%x" % mac
     self.__request['boxid'] = self.__boxid
     self.__GetUserAgent()
     self.__GetLanguage()

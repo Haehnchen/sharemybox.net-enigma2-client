@@ -8,7 +8,7 @@ from Screens.Screen import Screen
 
 from Screens.MessageBox import MessageBox
 
-from Components.config import config, ConfigSubsection, configfile, ConfigPassword, ConfigText, ConfigYesNo, ConfigInteger 
+from Components.config import config, ConfigSubsection, configfile, ConfigText
 
 import os, enigma
 import dreamclass
@@ -19,15 +19,9 @@ import socket, fcntl, struct
 from Tools.Directories import resolveFilename, SCOPE_SKIN_IMAGE, SCOPE_CURRENT_PLUGIN
 from Tools.LoadPixmap import LoadPixmap
 
-#config.plugins.ShareIt = ConfigSubsection()
-#config.plugins.ShareIt.Key = ConfigText()
-#config.plugins.ShareIt.privatekey = ConfigText()
 
 config.plugins.ShareMyBox = ConfigSubsection()
-#config.plugins.ShareMyBox.autosync_timers = ConfigYesNo()
-#config.plugins.ShareMyBox.autosync_last = ConfigInteger(0)
 config.plugins.ShareMyBox.privatekey = ConfigText()
-
 #config.plugins.ShareMyBox.autosync_last.setValue(value)
 
 def GetConfigDir(file = None):
@@ -45,7 +39,7 @@ def Icon(name):
     return LoadPixmap(resolveFilename(SCOPE_CURRENT_PLUGIN, "Extensions/ShareMyBox/icons/" + name + ".png"))
 
 def get_mac():
-  ifnames = ["eth0", "eth1"]
+  ifnames = ["eth0", "eth0"]
   
   # tricky how to get mac
   # "from uuid import getnode as get_mac" doesnt work on newest enigma2 version because of bug during uuid import  
@@ -55,7 +49,7 @@ def get_mac():
     except:
       pass
  
-  return "" 
+  return None
 
 def Restart(num = 3):
   # @TODO: How reload channellist. simple quit enigma2 will replace lamedb with last backup!
