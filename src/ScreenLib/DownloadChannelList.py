@@ -88,7 +88,7 @@ class Smb_Channellist_MainMenu(Smb_BaseListScreen):
     self.session.openWithCallback(self.ActionCreate, InputBox, title=_("Please enter a name for the new channellist"), text=" " * 20, maxSize=20, type=Input.TEXT)
  
   def ActionHelperDownload(self):
-    self.session.openWithCallback(self.ActionDownload, MessageBox, _("Download and overwrite current channellist?"), MessageBox.TYPE_YESNO)            
+    self.session.openWithCallback(self.ActionDownload, MessageBox, _("Download and overwrite current local channellist?"), MessageBox.TYPE_YESNO)            
         
   def ActionHelperDelete(self):
     self.session.openWithCallback(self.ActionDelete, MessageBox, _("Do you want delete this item?"), MessageBox.TYPE_YESNO)   

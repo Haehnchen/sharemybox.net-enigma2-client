@@ -40,9 +40,9 @@ class MainMenu(Smb_BaseScreen):
     
 
     self.actions['red'] = lambda: self.changedir('/')
-    self.actions['green'] = lambda: self.changedir('/var')
-    self.actions['yellow'] = lambda: self.changedir('/etc/enigma2')
-    self.actions['blue'] = lambda: self.changedir('/var/keys')
+    self.actions['green'] = lambda: self.changedir('/var/')
+    self.actions['yellow'] = lambda: self.changedir('/etc/enigma2/')
+    self.actions['blue'] = lambda: self.changedir('/var/keys/')
     
     self.context = ["ChannelSelectBaseActions","WizardActions", "DirectionActions","MenuActions","NumberActions","ColorActions"]
       
@@ -72,7 +72,7 @@ class MainMenu(Smb_BaseScreen):
       self.close(filename)
     
     except Exception as e:
-      pass      
+      self.myMsg(str(e))   
     
   def layoutFinished(self):
     self.changedir(LAST_DIR)
