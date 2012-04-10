@@ -2,13 +2,8 @@ from Plugins.Extensions.ShareMyBox import boxwrapper, dreamclass
 from Plugins.Extensions.ShareMyBox.boxwrapper import variable_set, variable_get
 from Plugins.Extensions.ShareMyBox.ShareMyBoxRequets import ShareMyBoxApi as Request 
 
-from BaseScreens import Smb_BaseScreen, Smb_BaseEditScreen, Smb_BaseListScreen
-from Components.config import config, configfile, getConfigListEntry, ConfigSubsection, ConfigInteger, ConfigYesNo, ConfigText, ConfigSelection
-
-
-#config.plugins.ShareMyBox = ConfigSubsection()
-#config.plugins.ShareMyBox.autosync_timers = ConfigYesNo()
-
+from BaseScreens import Smb_BaseEditScreen
+from Components.config import getConfigListEntry, ConfigText
 
 class Smb_Settings(Smb_BaseEditScreen):
   __description = ''
@@ -20,9 +15,7 @@ class Smb_Settings(Smb_BaseEditScreen):
       self.__description = str(ret['description'])
     
     fields = [
-       #{'description': 'description', 'field': ConfigText(fixed_size = False), 'text': 'Box Description', 'value': ''},
-       #{'name': 'comment', 'field': ConfigText(fixed_size = False), 'text': 'Comment', 'value': str(ret['comment'])},
-       {'name': 'description', 'field': ConfigText() , 'text': 'Box Description', 'value': self.__description},
+       {'name': 'description', 'field': ConfigText(fixed_size = False) , 'text': 'Box Description', 'value': self.__description},
        #{'name': 'autosync_timers', 'field': ConfigYesNo() , 'text': 'Sync Timers', 'value': bool(variable_get("autosync_timers"))},       
       ]
     
