@@ -5,6 +5,8 @@ from Screens.MessageBox import MessageBox
 from Components.Label import Label
 
 import os,inspect
+from Plugins.Extensions.ShareMyBox.__init__ import _
+
 
 class Smb_BaseScreen(Screen):
   actions = None
@@ -84,7 +86,18 @@ class Smb_BaseScreen(Screen):
     self["myMenu"].setList(self.buildlist())
       
   def Id(self):
-    return self["myMenu"].l.getCurrentSelection()[0]  
+    selc = self.CurrentSelection()
+    if selc is None:
+      return None
+    
+    return selc[0]
+  
+  def is_selected(self):
+    if self.Id() is None:
+      self.SetMessage(_('Please select one item'))
+      return False
+    
+    return True
   
   def CurrentSelection(self):
     return self["myMenu"].l.getCurrentSelection()    

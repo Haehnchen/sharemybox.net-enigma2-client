@@ -52,8 +52,6 @@ class Smb_Channellist_MainMenu(Smb_BaseListScreen):
   def buildlist(self):
     
     list = []
-    
-
 
     png = boxwrapper.Icon("channellist_list")
 
@@ -88,15 +86,19 @@ class Smb_Channellist_MainMenu(Smb_BaseListScreen):
     self.session.openWithCallback(self.ActionCreate, InputBox, title=_("Please enter a name for the new channellist"), text=" " * 20, maxSize=20, type=Input.TEXT)
  
   def ActionHelperDownload(self):
+    if self.is_selected() is False: return
     self.session.openWithCallback(self.ActionDownload, MessageBox, _("Download and overwrite current local channellist?"), MessageBox.TYPE_YESNO)            
         
   def ActionHelperDelete(self):
+    if self.is_selected() is False: return
     self.session.openWithCallback(self.ActionDelete, MessageBox, _("Do you want delete this item?"), MessageBox.TYPE_YESNO)   
       
   def ActionHelperUpload(self):
+    if self.is_selected() is False: return
     self.session.openWithCallback(self.ActionUpload, MessageBox, _("Upload and overwrite this list?"), MessageBox.TYPE_YESNO)   
      
   def ActionHelperEdit(self):
+    if self.is_selected() is False: return
     cid = self["myMenu"].l.getCurrentSelection()[0]
     self.session.openWithCallback(self.ActionEdit, Smb_Channellist_Edit, cid)  
   
@@ -133,9 +135,9 @@ class Smb_Channellist_MainMenu(Smb_BaseListScreen):
       self.SetMessage(str(e))      
           
   def ActionDownload(self, result):
+    if result is False or self.Id() is None: return
+    
     try:
-      if result is False or self.Id() is None: return
-        
       zip = boxwrapper.GetConfigDir('bouquets.zip')      
       Request().ChannellistDownload(self.Id(), zip)
       dreamclass.Uncompress(zip, True)

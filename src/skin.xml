@@ -1,6 +1,6 @@
 <skin>
   <screen name="Smb_MainMenu" position="center,center" size="460,400" title="ShareMyBox - Main Menu" >
-    <widget name="myMenu" position="10,10" size="420,380" scrollbarMode="showOnDemand" />
-    <widget name="Statusbar" position="10,390" size="530,20" font="Regular;12"/>
+    <widget name="myMenu" position="10,10" size="420,370" scrollbarMode="showOnDemand" />
+    <widget name="Statusbar" position="10,387" size="530,20" font="Regular;13"/>
   </screen>
 </skin>

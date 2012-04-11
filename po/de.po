@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Enigma2 ShareMyBox Plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-08 14:45+0100\n"
-"PO-Revision-Date: 2012-04-08 14:47+0100\n"
+"POT-Creation-Date: 2012-04-11 14:47+0100\n"
+"PO-Revision-Date: 2012-04-11 14:47+0100\n"
 "Last-Translator: \n"
 "Language-Team: german <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -123,16 +123,20 @@ msgstr "Bitte Benutzername oder E-Mail-Konto eingeben"
 #: ../src/ScreenLib/Actions.py:100
 #: ../src/ScreenLib/Actions.py:103
 #: ../src/ScreenLib/DownloadChannelList.py:94
-#: ../src/ScreenLib/FileList.py:97
-#: ../src/ScreenLib/MasterBox.py:103
+#: ../src/ScreenLib/FileList.py:98
+#: ../src/ScreenLib/MasterBox.py:104
 msgid "Do you want delete this item?"
 msgstr "Soll diese Element wirklich gelöscht werden?"
 
-#: ../src/ScreenLib/BaseScreens.py:127
+#: ../src/ScreenLib/BaseScreens.py:97
+msgid "Please select one item"
+msgstr "Bitte ein Element auswählen"
+
+#: ../src/ScreenLib/BaseScreens.py:140
 msgid "Cancel"
 msgstr ""
 
-#: ../src/ScreenLib/BaseScreens.py:128
+#: ../src/ScreenLib/BaseScreens.py:141
 msgid "OK"
 msgstr ""
 
@@ -145,33 +149,33 @@ msgstr ""
 msgid "Your Channellists"
 msgstr "Deine Kanallisten"
 
-#: ../src/ScreenLib/DownloadChannelList.py:88
+#: ../src/ScreenLib/DownloadChannelList.py:86
 msgid "Please enter a name for the new channellist"
 msgstr "Bitte Namen für die neue Kanalliste eingeben"
 
-#: ../src/ScreenLib/DownloadChannelList.py:91
+#: ../src/ScreenLib/DownloadChannelList.py:90
 msgid "Download and overwrite current local channellist?"
 msgstr "Kanallisten herunterladen und aktuelle lokale überschreiben?"
 
-#: ../src/ScreenLib/DownloadChannelList.py:97
+#: ../src/ScreenLib/DownloadChannelList.py:98
 msgid "Upload and overwrite this list?"
 msgstr "Aktuelle Kanalliste hochladen?"
 
-#: ../src/ScreenLib/DownloadChannelList.py:143
+#: ../src/ScreenLib/DownloadChannelList.py:145
 msgid "Restart to reload new channelllist?"
 msgstr "Neustarten um Kanalliste zu laden?"
 
-#: ../src/ScreenLib/DownloadChannelList.py:184
-#: ../src/ScreenLib/FileList.py:233
+#: ../src/ScreenLib/DownloadChannelList.py:186
+#: ../src/ScreenLib/FileList.py:236
 msgid "text"
 msgstr ""
 
-#: ../src/ScreenLib/FileList.py:104
-#: ../src/ScreenLib/FileList.py:110
+#: ../src/ScreenLib/FileList.py:105
+#: ../src/ScreenLib/FileList.py:113
 msgid "Do you want upload this item?"
 msgstr "Jetzt hochladen?"
 
-#: ../src/ScreenLib/FileList.py:107
+#: ../src/ScreenLib/FileList.py:109
 msgid "Do you want download this item?"
 msgstr "Wirklich herunterladen?"
 
@@ -196,7 +200,7 @@ msgstr "Bestätigt"
 msgid "Please enter Username or Mail of friend account"
 msgstr "Bitte Benutzername oder E-Mail-Konto des Freundes eingeben."
 
-#: ../src/ScreenLib/SmbSettings.py:46
+#: ../src/ScreenLib/SmbSettings.py:39
 msgid "Settings saved"
 msgstr "Einstellungen gespeichert"
 

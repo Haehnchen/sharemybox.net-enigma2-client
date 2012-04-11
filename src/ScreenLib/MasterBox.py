@@ -100,6 +100,7 @@ class MainMenu(Smb_BaseListScreen):
     self.session.openWithCallback(self.AddFriendCallback, InputBox, title=_("Please enter Username or Mail of friend account"), text=" " * 55, maxSize=55, type=Input.TEXT)    
         
   def ActionHelperDelete(self):
+    if self.is_selected() is False: return
     self.session.openWithCallback(self.ActionDelete, MessageBox, _("Do you want delete this item?"), MessageBox.TYPE_YESNO)   
 
   def AddFriendCallback(self, word = None):

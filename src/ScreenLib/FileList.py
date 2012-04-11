@@ -94,19 +94,22 @@ class MainMenu(Smb_BaseListScreen):
   def action(self, actiontype):
 
     if actiontype == "delete":
+      if self.is_selected() is False: return      
       self.session.openWithCallback(self.delete, MessageBox, _("Do you want delete this item?"), MessageBox.TYPE_YESNO)   
       
     if actiontype == "add":
-      reload(FileUpload)
       self.session.openWithCallback(self.add, FileUpload.MainMenu, "test")           
 
     if actiontype == "edit":
+      if self.is_selected() is False: return      
       self.session.openWithCallback(self.edit, MessageBox, _("Do you want upload this item?"), MessageBox.TYPE_YESNO)    
       
     if actiontype == "download":
+      if self.is_selected() is False: return      
       self.session.openWithCallback(self.download, MessageBox, _("Do you want download this item?"), MessageBox.TYPE_YESNO)        
       
     if actiontype == "upload":
+      if self.is_selected() is False: return      
       self.session.openWithCallback(self.upload, MessageBox, _("Do you want upload this item?"), MessageBox.TYPE_YESNO)        
 
   def rebuild(self):
