@@ -94,8 +94,8 @@ class Smb_MainMenu(Screen):
       
       obj = [
             x,
-            MultiContentEntryText(pos=(60, 0), size=(320, 25), font=0, text=x['name']),
-            MultiContentEntryText(pos=(62, 22), size=(320, 17), font=1, text=x['description']),
+            MultiContentEntryText(pos=(60, 0), size=(335, 25), font=0, text=x['name']),
+            MultiContentEntryText(pos=(62, 22), size=(335, 17), font=1, text=x['description']),
             MultiContentEntryPixmapAlphaTest(pos=(5, 0), size=(50, 40), png = png),
       ]
         

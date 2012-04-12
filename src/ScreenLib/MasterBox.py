@@ -35,7 +35,7 @@ class MainMenu(Smb_BaseListScreen):
     self["myMenu"].l.setFont(1, gFont("Regular", 14))
     self["myMenu"].l.setItemHeight(40)   
     
-    self["Description"] = Label("/var")
+    self["Description"] = Label("")
     
     self["red"] = Label("Add")
     self["green"] = Label("Delete")
