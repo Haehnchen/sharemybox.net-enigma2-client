@@ -1,5 +1,10 @@
 import urllib, urllib2
-import simplejson as json
+
+try:
+  import json as json
+except ImportError:
+  import simplejson as json
+
 import os
 import base64
 

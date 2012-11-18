@@ -7,3 +7,4 @@ Priority: optional
 Maintainer: Daniel Espendiller <admin@sharemybox.net>
 Homepage: http://sharemybox.net
 Source: http://github.com/Haehnchen/sharemybox.net-enigma2-client
+Depends: enigma2, python-json
