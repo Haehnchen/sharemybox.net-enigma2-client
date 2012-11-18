@@ -1,7 +1,7 @@
 Package: sharemybox
-Version: 1.0
+Version: 1.0.1
 Description: ShareMyBox Client for Enigma2
-Architecture: mipsel
+Architecture: all
 Section: extra
 Priority: optional
 Maintainer: Daniel Espendiller <admin@sharemybox.net>

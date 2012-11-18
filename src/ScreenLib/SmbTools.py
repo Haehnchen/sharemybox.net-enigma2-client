@@ -24,7 +24,7 @@ from ServiceReference import ServiceReference
 import Screens.Ipkg 
 import re
 
-UPDATE_URL = "http://sharemybox.net/client/sharemybox_lastest_mipsel.ipk"
+UPDATE_URL = "http://sharemybox.net/client/sharemybox_lastest_all.ipk"
 
 
 class Smb_Tools_MainMenu(Smb_BaseScreen):
